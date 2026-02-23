@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+html {
+  font-size: 30px;
+}
+
 body {
   font-family: monospace;
   font-size: 1.5rem;
@@ -30,7 +34,7 @@ body::before {
 /* Centered main content, leaves room for sidebar */
 #main {
   min-height: 100vh;
-  margin-right: 220px;
+  margin-right: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +57,7 @@ p {
 /* Fixed 3-line window */
 #quoteDisplay {
   width: 100%;
-  max-width: 680px;
+  max-width: 36rem;
   height: 6.6em;
   overflow: hidden;
   position: relative;
@@ -94,8 +98,9 @@ space.selected  {
 #controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 680px;
+  max-width: 36rem;
 }
 
 #nextBtn {
@@ -136,7 +141,7 @@ space.selected  {
   position: fixed;
   top: 0;
   right: 0;
-  width: 220px;
+  width: 15rem;
   height: 100vh;
   background: #1E100F;
   border-left: 1px solid #313244;
@@ -279,7 +284,7 @@ caret {
 
 #wcBarWrap {
   width: 100%;
-  height: 6px;
+  height: 0.35rem;
   background: #2a2a3a;
   border-radius: 3px;
   overflow: hidden;
