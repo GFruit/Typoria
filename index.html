@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Forest-Typer</title>
+  <title>Typoria</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to Forest-Typer!</h1>
-  <p>Your typing adventure starts here.</p>
+  <div id="main">
+    <h1>Typoria</h1>
+    <p>Your typing adventure starts here.</p>
+    <div id="quoteDisplay">
+      <div id="quoteInner"></div>
+    </div>
+    <div id="controls">
+      <button id="nextBtn" title="Next quote (Enter)">&#x279C;</button>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="side-section">
+      <div class="side-label">Woodcutting</div>
+      <div id="wcSkill">
+        <div id="wcHeader">
+          <span id="wcIcon">🌲</span>
+          <span id="wcLevel">1</span>
+        </div>
+        <div id="wcBarWrap">
+          <div id="wcBar"></div>
+        </div>
+        <div id="wcXpLabel">0 / 4 XP</div>
+      </div>
+    </div>
+    <div class="side-divider"></div>
+    <div class="side-section">
+      <div class="side-label">Experience</div>
+      <div id="xpBar">0 <span class="side-unit">XP</span></div>
+    </div>
+    <div class="side-divider"></div>
+    <div class="side-section">
+      <div class="side-label">Inventory</div>
+      <div class="inv-item">
+        <span id="logIcon" class="inv-icon">🪵</span>
+        <span class="inv-name">Logs</span>
+        <span id="logsCount" class="inv-count">0</span>
+      </div>
+    </div>
+  </div>
+
+  <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <script src="quotes.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
