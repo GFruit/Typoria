@@ -61,6 +61,36 @@ function updateLevelUI() {
     level < MAX_LEVEL ? `${currentXp} / ${neededXp} XP` : 'MAX LEVEL';
 }
 
+// --- Streak ---
+let streak = 0;
+let wordHadError = false;
+
+function getMultiplier(s) {
+  if (s >= 25) return 3;
+  if (s >= 10) return 2;
+  return 1;
+}
+
+function updateStreakUI() {
+  document.getElementById('streakCount').textContent = streak;
+  const mult = getMultiplier(streak);
+  document.getElementById('streakMult').textContent = mult > 1 ? `×${mult}` : '';
+  document.getElementById('streakFlame').style.opacity = streak > 0 ? '1' : '0.3';
+}
+
+// --- XP drops ---
+function spawnXpDrop(amount, multiplier) {
+  const container = document.getElementById('xpDropContainer');
+  const el = document.createElement('div');
+  el.className = 'xp-drop';
+  el.textContent = multiplier > 1 ? `+${amount} XP ×${multiplier}` : `+${amount} XP`;
+  const rect = document.getElementById('quoteDisplay').getBoundingClientRect();
+  el.style.left = (rect.left + rect.width / 2) + 'px';
+  el.style.top  = (rect.top - 10) + 'px';
+  container.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+}
+
 // --- DOM refs ---
 const quoteInner  = document.getElementById('quoteInner');
 const xpBar       = document.getElementById('xpBar');
@@ -122,6 +152,7 @@ function buildQuote(quote) {
   caretEl.remove();
   nextBtn.classList.remove('glow');
   clearSelection();
+  wordHadError = false;
 
   const words = quote.split(" ");
 
@@ -186,6 +217,8 @@ function rerenderTyped() {
     if (i >= slots.length || typed[i] !== slots[i].expected) { firstError = i; break; }
   }
 
+  if (firstError !== -1) wordHadError = true;
+
   slots.forEach(slot => {
     slot.el.classList.remove("correct", "incorrect", "untyped", "selected");
     slot.el.classList.add("untyped");
@@ -221,13 +254,27 @@ function submitWord(targetWord) {
     spEl.textContent = " ";
   }
 
-  xp   += targetWord.length;
+  // Streak
+  if (wordHadError) {
+    streak = 0;
+  } else {
+    streak++;
+  }
+  wordHadError = false;
+  updateStreakUI();
+
+  const mult   = getMultiplier(streak);
+  const xpGain = targetWord.length * mult;
+
+  xp   += xpGain;
   logs += 1;
   saveState();
 
   xpBar.innerHTML       = `${xp} <span class="side-unit">XP</span>`;
   logsCount.textContent = logs;
   updateLevelUI();
+
+  spawnXpDrop(xpGain, mult);
 
   const logIcon = document.getElementById('logIcon');
   logIcon.classList.remove('pop');
@@ -327,4 +374,5 @@ nextBtn.addEventListener("click", () => {
 // --- Init ---
 _lastLevel = getLevelInfo(xp).level;
 updateLevelUI();
+updateStreakUI();
 buildQuote(getNextQuote());

@@ -7,7 +7,7 @@
 <body>
   <div id="main">
     <h1>Typoria</h1>
-    <p>Your typing adventure starts here.</p>
+    <p></p>
     <div id="quoteDisplay">
       <div id="quoteInner"></div>
     </div>
@@ -43,9 +43,18 @@
         <span class="inv-name">Logs</span>
         <span id="logsCount" class="inv-count">0</span>
       </div>
+      <div class="side-divider"></div>
+    <div class="side-section">
+      <div class="side-label">Streak</div>
+      <div id="streakDisplay">
+        <span id="streakFlame">🔥</span>
+        <span id="streakCount">0</span>
+        <span id="streakMult"></span>
+      </div>
+    </div>
     </div>
   </div>
-
+  <div id="xpDropContainer"></div>
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <script src="quotes.js"></script>
   <script src="index.js"></script>
