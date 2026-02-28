@@ -18,6 +18,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
 
 body::before {
@@ -343,4 +344,388 @@ caret {
   white-space: nowrap;
   animation: xpFloat 1.2s ease-out forwards;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+/* =============================================
+   MODE VISIBILITY (body class toggles)
+   ============================================= */
+body.mode-skill  .travel-only { display: none; }
+body.mode-travel .skill-only  { display: none; }
+
+/* =============================================
+   SCENE COLOR THEMING
+   ============================================= */
+body.scene-woodcutting {
+  background-image: url("forest.png");
+}
+body.scene-mining {
+  background-image: url("mine.png");
+}
+body.scene-mining #sidebar {
+  background-image: url("stone.jpg");
+}
+body.scene-mining h1                 { color: #e0a96dcc; }
+body.scene-mining #wcLevel           { color: #e0a96d; }
+body.scene-mining #wcBar             { background: linear-gradient(to right, #e0a96d, #c084fc); }
+body.scene-mining .xp-drop           { color: #e0a96d; }
+body.scene-mining letter.correct     { color: #e0a96d; }
+body.scene-mining #nextBtn.glow      { border-color: #e0a96d; color: #e0a96d; animation: pulseOrange 1.5s ease-in-out infinite; }
+body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwards; }
+
+@keyframes pulseOrange {
+  0%, 100% { box-shadow: 0 0 8px #e0a96d55, 0 0 18px #e0a96d22; }
+  50%       { box-shadow: 0 0 16px #e0a96d88, 0 0 32px #e0a96d44; }
+}
+@keyframes levelUpMining {
+  0%   { transform: scale(1);   color: #e0a96d; }
+  40%  { transform: scale(1.5); color: #f9e2af; }
+  100% { transform: scale(1);   color: #e0a96d; }
+}
+
+/* =============================================
+   MAP BUTTON
+   ============================================= */
+#mapBtnWrap {
+  padding: 0.5rem 0;
+}
+#mapBtn {
+  width: 100%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid #ffffff33;
+  border-radius: 6px;
+  color: #dbdbdb;
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.5rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, border-color 0.2s;
+}
+#mapBtn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #ffffff66;
+}
+
+/* =============================================
+   TRAVEL PROGRESS BAR (top of main)
+   ============================================= */
+#travelBar {
+  width: 100%;
+  max-width: 36rem;
+}
+#travelBarHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #dbdbdb;
+  margin-bottom: 0.3rem;
+}
+.travel-arrow { color: #a6e3a1; }
+#travelProgressText {
+  margin-left: auto;
+  color: #6c7086;
+}
+#travelBarTrack {
+  width: 100%;
+  height: 0.35rem;
+  background: #2a2a3a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+#travelProgressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #89b4fa, #a6e3a1);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =============================================
+   AGILITY SKILL (sidebar, travel mode)
+   ============================================= */
+#agilSkill { display: flex; flex-direction: column; gap: 0.35rem; }
+#agilHeader { display: flex; align-items: center; gap: 0.5rem; }
+#agilIcon   { font-size: 1.5rem; line-height: 1; }
+#agilLevel  { font-size: 1.8rem; font-weight: bold; color: #89b4fa; line-height: 1; }
+
+#agilBarWrap {
+  width: 100%;
+  height: 0.35rem;
+  background: #2a2a3a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+#agilBar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #89b4fa, #a6e3a1);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#agilXpLabel { font-size: 0.7rem; color: #dbdbdb; letter-spacing: 0.05em; }
+
+#agilLevel.level-up { animation: levelUp 0.5s ease forwards; }
+
+/* =============================================
+   ARRIVAL BANNER
+   ============================================= */
+#arrivalBanner {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(calc(-50% - 7.5rem));
+  background: rgba(10, 20, 10, 0.92);
+  border: 1px solid #a6e3a1;
+  color: #a6e3a1;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 500;
+  white-space: nowrap;
+}
+#arrivalBanner.show { opacity: 1; }
+
+/* =============================================
+   WORLD MAP MODAL
+   ============================================= */
+#mapModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#mapModal.open {
+  display: flex;
+}
+#mapContent {
+  background: #0d1a0d;
+  border: 1px solid #3a4a3a;
+  border-radius: 10px;
+  width: min(680px, 90vw);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#mapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid #3a4a3a;
+}
+#mapHeader h2 {
+  font-size: 1rem;
+  color: #a6e3a1;
+  letter-spacing: 0.1em;
+  font-weight: normal;
+}
+#mapCloseBtn {
+  background: none;
+  border: none;
+  color: #6c7086;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+#mapCloseBtn:hover { color: #cdd6f4; }
+
+#mapArea {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    url('map.png') center / cover;
+  overflow: hidden;
+}
+#mapPaths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.map-path {
+  stroke: #ffffff22;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.map-path-label {
+  fill: #6c7086;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* Location nodes */
+.map-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.map-node:hover { transform: translate(-50%, -50%) scale(1.1); }
+
+.node-icon {
+  font-size: 1.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #ffffff22;
+  border-radius: 50%;
+  transition: border-color 0.2s;
+}
+.node-name {
+  font-family: monospace;
+  font-size: 0.65rem;
+  color: #9399b2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* States */
+.map-node.current .node-icon {
+  border-color: #a6e3a188;
+  box-shadow: 0 0 10px #a6e3a133;
+}
+.map-node.current .node-name { color: #a6e3a1; }
+
+.map-node.selected .node-icon {
+  border-color: #89b4fa;
+  box-shadow: 0 0 12px #89b4fa55;
+}
+
+.map-node.destination .node-icon {
+  border-color: #f9e2af;
+  animation: mapPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes mapPulse {
+  0%, 100% { box-shadow: 0 0 8px #f9e2af44; }
+  50%       { box-shadow: 0 0 18px #f9e2af88; }
+}
+
+#mapFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-top: 1px solid #3a4a3a;
+  gap: 1rem;
+}
+#mapTravelInfo {
+  font-size: 0.75rem;
+  color: #6c7086;
+  font-family: monospace;
+}
+#mapTravelBtn {
+  background: rgba(166, 227, 161, 0.1);
+  border: 1px solid #a6e3a155;
+  color: #a6e3a1;
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.45rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+#mapTravelBtn:hover:not(:disabled) {
+  background: rgba(166, 227, 161, 0.2);
+}
+#mapTravelBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* =============================================
+   TRAVEL / AGILITY SCENE
+   ============================================= */
+body.mode-travel {
+  background-image: url("travel.png"); /* your walking path background */
+}
+
+body.mode-travel #sidebar {
+  background-image: url("path.png"); /* your sidebar texture while traveling */
+}
+
+/* Agility level number color */
+body.mode-travel #agilLevel {
+  color: #89b4fa;
+}
+
+/* Agility XP bar */
+body.mode-travel #agilBar {
+  background: linear-gradient(to right, #89b4fa, #a6e3a1);
+}
+
+/* Correct letters while traveling */
+body.mode-travel letter.correct {
+  color: #89b4fa;
+}
+
+/* XP drops while traveling */
+body.mode-travel .xp-drop {
+  color: #89b4fa;
+}
+
+/* Title color while traveling */
+body.mode-travel h1 {
+  color: #89b4facc;
+}
+
+/* Next button glow while traveling */
+body.mode-travel #nextBtn.glow {
+  border-color: #89b4fa;
+  color: #89b4fa;
+  animation: pulseBlue 1.5s ease-in-out infinite;
+}
+
+/* Travel progress bar accent */
+body.mode-travel .travel-arrow {
+  color: #89b4fa;
+}
+
+@keyframes pulseBlue {
+  0%, 100% { box-shadow: 0 0 8px #89b4fa55, 0 0 18px #89b4fa22; }
+  50%       { box-shadow: 0 0 16px #89b4fa88, 0 0 32px #89b4fa44; }
+}
+
+#transitionOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: all;
+}
+#transitionOverlay.active { display: block; }
+
+#transitionFrom, #transitionTo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+#transitionFrom { z-index: 2; }
+#transitionTo   { z-index: 1; }
+
+@keyframes crossFade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+#transitionFrom.fading {
+  animation: crossFade 3s ease forwards;
 }

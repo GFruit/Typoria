@@ -4,10 +4,24 @@
   <title>Typoria</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="mode-skill scene-woodcutting">
+
   <div id="main">
     <h1>Typoria</h1>
-    <p></p>
+
+    <!-- Travel progress bar (travel mode only) -->
+    <div id="travelBar" class="travel-only">
+      <div id="travelBarHeader">
+        <span id="travelFromName">Forest</span>
+        <span class="travel-arrow">→</span>
+        <span id="travelToName">The Mine ⛏️</span>
+        <span id="travelProgressText">0 / 0 steps</span>
+      </div>
+      <div id="travelBarTrack">
+        <div id="travelProgressFill"></div>
+      </div>
+    </div>
+
     <div id="quoteDisplay">
       <div id="quoteInner"></div>
     </div>
@@ -16,34 +30,67 @@
     </div>
   </div>
 
+  <!-- Sidebar -->
   <div id="sidebar">
-    <div class="side-section">
-      <div class="side-label">Woodcutting</div>
+
+    <!-- Map button always visible -->
+    <div id="mapBtnWrap">
+      <button id="mapBtn">🗺 World Map</button>
+    </div>
+
+    <div class="side-divider"></div>
+
+    <!-- SKILL MODE: skill level -->
+    <div class="side-section skill-only">
+      <div class="side-label" id="skillLabel">Woodcutting</div>
       <div id="wcSkill">
         <div id="wcHeader">
           <span id="wcIcon">🌲</span>
           <span id="wcLevel">1</span>
         </div>
-        <div id="wcBarWrap">
-          <div id="wcBar"></div>
-        </div>
+        <div id="wcBarWrap"><div id="wcBar"></div></div>
         <div id="wcXpLabel">0 / 4 XP</div>
       </div>
     </div>
-    <div class="side-divider"></div>
-    <div class="side-section">
+    <div class="side-divider skill-only"></div>
+    <div class="side-section skill-only">
       <div class="side-label">Experience</div>
       <div id="xpBar">0 <span class="side-unit">XP</span></div>
     </div>
-    <div class="side-divider"></div>
-    <div class="side-section">
+    <div class="side-divider skill-only"></div>
+    <div class="side-section skill-only">
       <div class="side-label">Inventory</div>
       <div class="inv-item">
-        <span id="logIcon" class="inv-icon">🪵</span>
-        <span class="inv-name">Logs</span>
-        <span id="logsCount" class="inv-count">0</span>
+        <span id="itemIcon" class="inv-icon">🪵</span>
+        <span class="inv-name" id="itemName">Logs</span>
+        <span id="itemsCount" class="inv-count">0</span>
       </div>
-      <div class="side-divider"></div>
+    </div>
+
+    <!-- TRAVEL MODE: agility + journey -->
+    <div class="side-section travel-only">
+      <div class="side-label">Agility</div>
+      <div id="agilSkill">
+        <div id="agilHeader">
+          <span id="agilIcon">🏃</span>
+          <span id="agilLevel">1</span>
+        </div>
+        <div id="agilBarWrap"><div id="agilBar"></div></div>
+        <div id="agilXpLabel">0 / 4 XP</div>
+      </div>
+    </div>
+    <div class="side-divider travel-only"></div>
+    <div class="side-section travel-only">
+      <div class="side-label">Journey</div>
+      <div class="inv-item">
+        <span class="inv-icon">👣</span>
+        <span class="inv-name" id="travelDestName">—</span>
+        <span id="travelStepsDisplay" class="inv-count">0</span>
+      </div>
+    </div>
+
+    <!-- SHARED: streak -->
+    <div class="side-divider"></div>
     <div class="side-section">
       <div class="side-label">Streak</div>
       <div id="streakDisplay">
@@ -52,11 +99,48 @@
         <span id="streakMult"></span>
       </div>
     </div>
+
+  </div>
+
+  <!-- Arrival banner -->
+  <div id="arrivalBanner"></div>
+
+  <!-- XP drop container -->
+  <div id="xpDropContainer"></div>
+
+  <!-- World Map Modal -->
+  <div id="mapModal">
+    <div id="mapContent">
+      <div id="mapHeader">
+        <h2>🗺 World Map</h2>
+        <button id="mapCloseBtn">✕</button>
+      </div>
+      <div id="mapArea">
+        <svg id="mapPaths" xmlns="http://www.w3.org/2000/svg"></svg>
+        <!-- Location nodes injected by JS -->
+      </div>
+      <div id="mapFooter">
+        <div id="mapTravelInfo"></div>
+        <button id="mapTravelBtn" disabled>Select a destination</button>
+      </div>
     </div>
   </div>
-  <div id="xpDropContainer"></div>
+
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <div id="transitionOverlay">
+    <div id="transitionFrom"></div>
+    <div id="transitionTo"></div>
+  </div>
   <script src="quotes.js"></script>
-  <script src="index.js"></script>
+  <script src="mining_quotes.js"></script>
+  <script src="locations.js"></script>
+  <script src="state.js"></script>
+  <script src="leveling.js"></script>
+  <script src="streak.js"></script>
+  <script src="travel.js"></script>
+  <script src="typing.js"></script>
+  <script src="scenes.js"></script>
+  <script src="worldmap.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
