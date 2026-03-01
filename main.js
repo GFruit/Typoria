@@ -1,4 +1,6 @@
 // --- Quote pool ---
+
+/*
 let quotePool  = [];
 let usedQuotes = [];
 
@@ -11,16 +13,18 @@ function rebuildQuotePool() {
   quotePool  = [...getScene().quotes()];
   usedQuotes = [];
 }
+  */
+
+let _lastQuote = null;
 
 function getNextQuote() {
   if (gameMode === 'travel') return getNextTravelQuote();
-  if (quotePool.length === 0) {
-    quotePool  = [...usedQuotes];
-    usedQuotes = [];
-  }
-  const idx   = Math.floor(Math.random() * quotePool.length);
-  const quote = quotePool.splice(idx, 1)[0];
-  usedQuotes.push(quote);
+  const pool = getScene().quotes();
+  let quote;
+  do {
+    quote = pool[Math.floor(Math.random() * pool.length)];
+  } while (quote === _lastQuote && pool.length > 1);
+  _lastQuote = quote;
   return quote;
 }
 
@@ -78,7 +82,9 @@ nextBtn.addEventListener("click", () => {
 });
 
 // --- Init ---
+/*
 rebuildQuotePool();
+*/
 
 if (gameMode === 'travel') {
   agilityLastLevel = getLevelInfo(agilityXp).level;
