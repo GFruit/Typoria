@@ -1,4 +1,4 @@
-// Sequential story shown while traveling. Loops if exhausted before arrival.
+// Sequential story shown while traveling.
 const travelStory = [
   "The crunch of crystalline snow beneath Elias's boots was the only sound in the sub-zero silence. High in the Andes, the air was a thin, hungry ghost, stealing the warmth from his lungs. He wasn't just hiking; he was ascending into a realm where the sky touched the jagged teeth of the earth.",
   "Deep in the bioluminescent glades of Xylos-4, the moss pulsed with a soft, rhythmic violet light. Every step Captain Miller took released a cloud of shimmering spores that floated like tiny embers. The 'nature' here wasn't green, but it was alive, breathing in sync with her heavy spacesuit respirators.",
@@ -9,7 +9,7 @@ const travelStory = [
   "Detective Aris followed the muddy prints into the heart of the marsh. This wasn't a recreational stroll. The cypress knees rose from the black water like gnarled fingers. Every splash of a distant alligator made him grip his flashlight tighter. Nature wasn't a sanctuary today; it was a crime scene hiding its secrets.",
   "The toddler's first hike was less of a trek and more of a series of fascinations. To him, a single beetle on a leaf was a dragon guarding a castle. Every pebble was a gem. His mother watched, realizing she had forgotten how to see the forest for the trees, while he was busy seeing the universe in a blade of grass.",
   "In the year 2142, 'nature' was a holographic simulation in a steel bunker. Leo walked the virtual trail, feeling the haptic feedback of simulated wind on his face. He knew the pine scent was a chemical aerosol, but as he reached the digital summit, his heart raced with a longing for a world he had never actually touched.",
-  "The autumn leaves were a riot of carnage—vivid reds, dying oranges, and brittle browns. Samantha walked the ridge, the wind whipping her hair into a frenzy. She thought about how nature prepares for death by putting on its most beautiful clothes. It made her own transition, her own goodbye, feel a little more like a celebration.",
+  "The autumn leaves were a riot of carnage-vivid reds, dying oranges, and brittle browns. Samantha walked the ridge, the wind whipping her hair into a frenzy. She thought about how nature prepares for death by putting on its most beautiful clothes. It made her own transition, her own goodbye, feel a little more like a celebration.",
   "Scaling the volcanic rim was like walking on the crust of a primordial soup. The sulfurous steam hissed from vents in the rock, smelling of the earth's deep, dark gut. Below, the lava glowed a dull, angry crimson. One misstep meant melting; one right step meant witnessing the very moment the world creates itself.",
   "The Appalachian Trail is a long conversation with yourself. By mile five hundred, Ben had run out of things to say. He just walked. His rhythm became mechanical, his thoughts drifting into a wordless flow. He wasn't a man walking through the woods anymore; he was just another moving part of the ecosystem, lean and hungry.",
   "They hiked by moonlight, the silver glow turning the forest into a monochrome dreamscape. No headlamps were allowed; they wanted to see the world as the owls did. Shadows stretched into long, spindly limbs, and the rustle of a nocturnal fox sounded like a landslide in the heavy, quiet air of the midnight woods.",
@@ -24,28 +24,44 @@ const travelStory = [
   "The swamp was a cathedral of rot. Spanish moss draped from the trees like tattered funeral veils. Every step into the muck was a gamble with the unknown. It wasn't 'pretty' nature, but it was fertile and fierce. The hiker moved slowly, respecting the prehistoric stillness of the snapping turtles and the silent, drifting lilies.",
   "Winter hiking is an exercise in endurance. The trail was gone, buried under three feet of fresh powder. Every step required a high-kneed lunge, a brutal workout for the quads. But when he reached the frozen waterfall, a giant blue fang of ice hanging from the cliff, the sheer, frozen majesty of it made the pain vanish.",
   "The suburban 'nature trail' was a paved loop between two housing developments. It wasn't the wilderness, but for the elderly man with the walker, it was a mountain. He noted the arrival of the first robins and the budding of the maples with the precision of a scientist. To him, this half-mile was a grand, heroic expedition.",
-  "The canyon was a red-rock wound in the earth, layered with millions of years of history. Walking down into it was like traveling backward through time. Each layer of sediment was a different era, a different climate. By the time he reached the river at the bottom, he felt like he had walked through the biography of the planet."
+  "The canyon was a red-rock wound in the earth, layered with millions of years of history. Walking down into it was like traveling backward through time. Each layer of sediment was a different era, a different climate. By the time he reached the river at the bottom, he felt like he had walked through the biography of the planet.",
 ];
+
+// Track which quotes have been used so we don't repeat until all are exhausted
+let _travelQuotePool = [];
+
+function getNextTravelQuote() {
+  if (_travelQuotePool.length === 0) {
+    _travelQuotePool = travelStory.map((_, i) => i);
+  }
+  const pick = Math.floor(Math.random() * _travelQuotePool.length);
+  const idx  = _travelQuotePool.splice(pick, 1)[0];
+  return travelStory[idx];
+}
 
 // --- Arrival guard ---
 let arriving = false;
 
+// Letter counter (shown in sidebar Journey section)
+let travelLettersDone = 0;
+
 // --- Agility skill ---
-let agilityXp        = parseInt(localStorage.getItem('typoria_xp_agility')    || '0');
+let agilityXp        = parseInt(localStorage.getItem('typoria_xp_agility') || '0');
 let agilityLastLevel = 1;
 
 function updateAgilityUI() {
   const { level, currentXp, neededXp } = getLevelInfo(agilityXp);
   const el = document.getElementById('agilLevel');
-  el.textContent = level;
+  el.textContent = `${level} / ${MAX_LEVEL}`;
   if (level > agilityLastLevel) {
     el.classList.remove('level-up');
     void el.offsetWidth;
     el.classList.add('level-up');
     agilityLastLevel = level;
+    playLevelUpSound();
   }
   const pct = level < MAX_LEVEL ? (currentXp / neededXp) * 100 : 100;
-  document.getElementById('agilBar').style.width = pct + '%';
+  document.getElementById('agilBar').style.width     = pct + '%';
   document.getElementById('agilXpLabel').textContent =
     level < MAX_LEVEL ? `${currentXp} / ${neededXp} XP` : 'MAX LEVEL';
 }
@@ -60,25 +76,41 @@ function saveTravelState() {
   localStorage.setItem('typoria_travel_dest',  travelDest);
   localStorage.setItem('typoria_travel_steps', travelStepsDone);
   localStorage.setItem('typoria_travel_req',   travelStepsRequired);
-  localStorage.setItem('typoria_story_idx',    travelStoryIndex);
 }
 
 // --- Travel progress bar ---
-function updateTravelProgressBar() {
-  const pct = travelStepsRequired > 0
-    ? Math.min(travelStepsDone / travelStepsRequired * 100, 100)
+function updateTravelProgressBar(wordIndex, totalWords) {
+  // Progress bar fills based on word position within the quote
+  const pct = totalWords > 0
+    ? Math.min((wordIndex / totalWords) * 100, 100)
     : 0;
-  document.getElementById('travelProgressFill').style.width = pct + '%';
-  document.getElementById('travelProgressText').textContent =
-    `${travelStepsDone} / ${travelStepsRequired} steps`;
+  document.getElementById('travelProgressFill').style.width   = pct + '%';
+  document.getElementById('travelProgressText').textContent = `${wordIndex} / ${totalWords} words`;
+
   const dest = LOCATIONS[travelDest];
   if (dest) {
-    document.getElementById('travelToName').textContent  = dest.name + ' ' + dest.icon;
-    document.getElementById('travelDestName').textContent = dest.name;
-    document.getElementById('travelStepsDisplay').textContent = travelStepsDone;
+    document.getElementById('travelToName').textContent       = dest.name + ' ' + dest.icon;
+    document.getElementById('travelDestName').textContent     = dest.name;
+    document.getElementById('travelStepsDisplay').textContent = travelLettersDone;
   }
   document.getElementById('travelFromName').textContent =
     LOCATIONS[currentLocation] ? LOCATIONS[currentLocation].name : '';
+}
+
+// Called by typing.js on every completed word while traveling
+function onTravelWordComplete(xpGain, mult, wordIndex, totalWords) {
+  agilityXp        += xpGain;
+  travelLettersDone += xpGain; // xpGain = word length × multiplier = letters typed
+  saveAgilityState();
+  updateAgilityUI();
+  updateTravelProgressBar(wordIndex + 1, totalWords);
+
+  // Arrive when last word of the quote is typed
+  if (wordIndex + 1 >= totalWords) {
+    travelStepsDone = 1;
+    saveTravelState();
+    setTimeout(arriveAtDestination, 400);
+  }
 }
 
 // --- Start traveling ---
@@ -88,8 +120,9 @@ function startTravel(destId) {
 
   travelDest          = destId;
   travelStepsDone     = 0;
-  travelStepsRequired = route.steps;
-  travelStoryIndex    = 0;
+  travelStepsRequired = route.quotes;
+  travelLettersDone   = 0;
+  _travelQuotePool    = [];
   gameMode            = 'travel';
 
   saveTravelState();
@@ -104,10 +137,11 @@ function enterTravelMode() {
 
   agilityLastLevel = getLevelInfo(agilityXp).level;
   updateAgilityUI();
-  updateTravelProgressBar();
+  updateTravelProgressBar(0, 1);
 
   rebuildQuotePool();
   buildQuote(getNextQuote());
+  updateTravelProgressBar(0, wordElements.length);
   typingInput.focus();
 }
 
@@ -117,24 +151,24 @@ function exitTravelMode() {
 
 // --- Arrive at destination ---
 function arriveAtDestination() {
-  if (arriving) return; // prevent double-fire from fast typing
-  if (!travelDest || !LOCATIONS[travelDest]) return; // safety check
+  if (arriving) return;
+  if (!travelDest || !LOCATIONS[travelDest]) return;
   arriving = true;
   typingInput.disabled = true;
 
-  const destId = travelDest; // capture before clearing
+  const destId = travelDest;
 
   const overlay = document.getElementById('transitionOverlay');
   const fromEl  = document.getElementById('transitionFrom');
   const toEl    = document.getElementById('transitionTo');
 
   const bgMap = {
-    woodcutting: "url('forest.png')",
-    mining:      "url('mine.png')",
+    woodcutting: "url('assets/img/forest.png')",
+    mining:      "url('assets/img/mine.png')",
   };
   const destScene = LOCATIONS[destId].scene;
-  fromEl.style.backgroundImage = "url('travel.png')";
-  toEl.style.backgroundImage   = bgMap[destScene] || "url('forest.png')";
+  fromEl.style.backgroundImage = "url('assets/img/travel.png')";
+  toEl.style.backgroundImage   = bgMap[destScene] || "url('assets/img/forest.png')";
 
   overlay.classList.add('active');
   fromEl.classList.add('fading');
@@ -144,7 +178,7 @@ function arriveAtDestination() {
     travelDest          = '';
     travelStepsDone     = 0;
     travelStepsRequired = 0;
-    travelStoryIndex    = 0;
+    travelLettersDone   = 0;
     saveTravelState();
 
     currentScene = LOCATIONS[currentLocation].scene;
@@ -156,7 +190,7 @@ function arriveAtDestination() {
     updateStreakUI();
     rebuildQuotePool();
     buildQuote(getNextQuote());
-    showArrivalBanner(LOCATIONS[currentLocation].name);
+    //showArrivalBanner(LOCATIONS[currentLocation].name);
 
     overlay.classList.remove('active');
     fromEl.classList.remove('fading');
@@ -171,12 +205,4 @@ function showArrivalBanner(locationName) {
   banner.textContent = `You have arrived at ${locationName}!`;
   banner.classList.add('show');
   setTimeout(() => banner.classList.remove('show'), 3500);
-}
-
-// --- Travel quote (sequential, not shuffled) ---
-function getNextTravelQuote() {
-  const idx = travelStoryIndex % travelStory.length;
-  travelStoryIndex++;
-  localStorage.setItem('typoria_story_idx', travelStoryIndex);
-  return travelStory[idx];
 }

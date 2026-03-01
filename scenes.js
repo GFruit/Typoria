@@ -3,18 +3,16 @@ const SCENES = {
   woodcutting: {
     id:        'woodcutting',
     name:      'Woodcutting',
+    skill:     'woodcutting',   // matches item.skill in ITEM_REGISTRY
     skillIcon: '🌲',
-    itemName:  'Logs',
-    itemIcon:  '🪵',
     bodyClass: 'scene-woodcutting',
     quotes:    () => quotes,
   },
   mining: {
     id:        'mining',
     name:      'Mining',
+    skill:     'mining',
     skillIcon: '⛏️',
-    itemName:  'Rocks',
-    itemIcon:  '🪨',
     bodyClass: 'scene-mining',
     quotes:    () => miningQuotes,
   },
@@ -26,7 +24,6 @@ function getScene() {
 
 function updateSceneUI() {
   if (gameMode === 'travel') {
-    // Body class reflects destination scene for color theming
     const destScene = travelDest && LOCATIONS[travelDest]
       ? LOCATIONS[travelDest].scene
       : currentScene;
@@ -39,10 +36,10 @@ function updateSceneUI() {
 
   document.getElementById('wcIcon').textContent     = scene.skillIcon;
   document.getElementById('skillLabel').textContent = scene.name;
-  document.getElementById('itemIcon').textContent   = scene.itemIcon;
-  document.getElementById('itemName').textContent   = scene.itemName;
-  document.getElementById('itemsCount').textContent = items;
   xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
+
+  // Clear last drop display on scene switch
+  document.getElementById('lastDropIcons').textContent = '—';
 
   _lastLevel = getLevelInfo(xp).level;
   updateLevelUI();

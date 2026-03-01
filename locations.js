@@ -5,7 +5,7 @@ const LOCATIONS = {
     name:  'Forest',
     icon:  '🌲',
     scene: 'woodcutting',
-    x: 22,   // % position on map canvas
+    x: 22,
     y: 63,
   },
   mine: {
@@ -18,9 +18,9 @@ const LOCATIONS = {
   },
 };
 
-// Routes are bidirectional. steps = how many steps to complete the journey.
+// quotes = how many quotes you must complete to finish the journey
 const ROUTES = [
-  { from: 'forest', to: 'mine', steps: 500, name: 'Mountain Path' },
+  { from: 'forest', to: 'mine', quotes: 1, name: 'Mountain Path' },
 ];
 
 function getRoute(a, b) {

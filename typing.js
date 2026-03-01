@@ -5,7 +5,6 @@ const typingInput = document.getElementById('typingInput');
 const nextBtn     = document.getElementById('nextBtn');
 
 xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
-document.getElementById('itemsCount').textContent = items;
 
 let wordElements  = [];
 let spaceElements = [];
@@ -42,7 +41,9 @@ function getWordLineIndex(wordEl) {
 function scrollToCurrentLine() {
   if (currentWordIndex >= wordElements.length) return;
   const lineIdx    = getWordLineIndex(wordElements[currentWordIndex]);
-  const scrollLine = Math.max(0, lineIdx - 1);
+  const lastLineIdx = getWordLineIndex(wordElements[wordElements.length - 1]);
+  const isLastLine = lineIdx >= lastLineIdx;
+  const scrollLine = Math.max(0, isLastLine ? lineIdx - 2 : lineIdx - 1);
   quoteInner.style.transform = `translateY(-${scrollLine * getLineHeight()}px)`;
 }
 
@@ -58,7 +59,12 @@ function buildQuote(quote) {
   caretEl.remove();
   nextBtn.classList.remove('glow');
   clearSelection();
+  if (wordHadError) {
+    streak = 0;
+    updateStreakUI();
+  }
   wordHadError = false;
+  wpmOnQuoteStart(quote);
 
   const words = quote.split(" ");
 
@@ -86,7 +92,8 @@ function buildQuote(quote) {
 
   wordElements[0].classList.add("current-word");
   updateCaret(getSlots(0), 0);
-  requestAnimationFrame(scrollToCurrentLine);
+  // Double rAF ensures layout is complete before measuring line positions
+  requestAnimationFrame(() => requestAnimationFrame(scrollToCurrentLine));
 }
 
 // --- Slots ---
@@ -160,7 +167,6 @@ function submitWord(targetWord) {
     spEl.textContent = " ";
   }
 
-  // Streak (same for all modes)
   if (wordHadError) {
     streak = 0;
   } else {
@@ -174,33 +180,25 @@ function submitWord(targetWord) {
 
   if (gameMode === 'travel') {
     // --- Travel mode ---
-    agilityXp       += xpGain;
-    travelStepsDone += xpGain; // steps use multiplier too
-    saveAgilityState();
-    saveTravelState();
-    updateAgilityUI();
-    updateTravelProgressBar();
     spawnXpDrop(xpGain, mult);
-
-    if (travelStepsDone >= travelStepsRequired) {
-      // Let word finish rendering, then arrive
-      setTimeout(arriveAtDestination, 400);
-    }
+    onTravelWordComplete(xpGain, mult, currentWordIndex, wordElements.length);
 
   } else {
     // --- Skill mode ---
-    xp    += xpGain;
-    items += 1;
+    xp += xpGain;
     saveState();
     xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
-    document.getElementById('itemsCount').textContent = items;
     updateLevelUI();
     spawnXpDrop(xpGain, mult);
 
-    const itemIcon = document.getElementById('itemIcon');
-    itemIcon.classList.remove('pop');
-    void itemIcon.offsetWidth;
-    itemIcon.classList.add('pop');
+    // Roll drops for current skill level
+    const scene      = getScene();
+    const skillLevel = getLevelInfo(xp).level;
+    const dropped    = rollDrops(scene.skill, skillLevel);
+
+    dropped.forEach(id => awardItem(id));
+    updateLastDropDisplay(dropped);
+    playDropSound(dropped);
   }
 
   currentWordIndex++;
@@ -213,6 +211,8 @@ function submitWord(targetWord) {
     caretEl.remove();
     typingInput.disabled = true;
     nextBtn.classList.add('glow');
+    if (gameMode !== 'travel') wpmOnQuoteComplete();
+
   }
 
   typingInput.value = "";
@@ -238,6 +238,7 @@ typingInput.addEventListener("keydown", (e) => {
 });
 
 typingInput.addEventListener("input", () => {
+  wpmOnFirstKey();
   if (selectionActive) clearSelection();
   rerenderTyped();
 });

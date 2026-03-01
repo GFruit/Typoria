@@ -108,7 +108,7 @@ function updateMapFooter() {
   btn.disabled     = false;
   btn.textContent  = `Travel to ${dest.name}`;
   info.textContent = route
-    ? `${route.steps.toLocaleString()} steps via ${route.name}`
+    ? route.name
     : 'No route found';
 }
 

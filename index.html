@@ -6,6 +6,8 @@
 </head>
 <body class="mode-skill scene-woodcutting">
 
+  <button id="musicBtn" title="Mute music">🔊</button>
+
   <div id="main">
     <h1>Typoria</h1>
 
@@ -27,20 +29,21 @@
     </div>
     <div id="controls">
       <button id="nextBtn" title="Next quote (Enter)">&#x279C;</button>
+      <div id="wpmDisplay"></div>
     </div>
+    <div id="wpmLabel"></div>
   </div>
 
   <!-- Sidebar -->
   <div id="sidebar">
 
-    <!-- Map button always visible -->
     <div id="mapBtnWrap">
       <button id="mapBtn">🗺 World Map</button>
     </div>
 
     <div class="side-divider"></div>
 
-    <!-- SKILL MODE: skill level -->
+    <!-- SKILL MODE -->
     <div class="side-section skill-only">
       <div class="side-label" id="skillLabel">Woodcutting</div>
       <div id="wcSkill">
@@ -59,15 +62,11 @@
     </div>
     <div class="side-divider skill-only"></div>
     <div class="side-section skill-only">
-      <div class="side-label">Inventory</div>
-      <div class="inv-item">
-        <span id="itemIcon" class="inv-icon">🪵</span>
-        <span class="inv-name" id="itemName">Logs</span>
-        <span id="itemsCount" class="inv-count">0</span>
-      </div>
+      <div class="side-label">Last Drop</div>
+      <div id="lastDropIcons">—</div>
     </div>
 
-    <!-- TRAVEL MODE: agility + journey -->
+    <!-- TRAVEL MODE -->
     <div class="side-section travel-only">
       <div class="side-label">Agility</div>
       <div id="agilSkill">
@@ -89,7 +88,7 @@
       </div>
     </div>
 
-    <!-- SHARED: streak -->
+    <!-- SHARED -->
     <div class="side-divider"></div>
     <div class="side-section">
       <div class="side-label">Streak</div>
@@ -100,13 +99,24 @@
       </div>
     </div>
 
+    <div id="inventoryBtnWrap">
+      <button id="inventoryBtn">🎒 Collection</button>
+    </div>
+
   </div>
+
 
   <!-- Arrival banner -->
   <div id="arrivalBanner"></div>
 
-  <!-- XP drop container -->
+  <!-- XP drops -->
   <div id="xpDropContainer"></div>
+
+  <!-- Scene transition overlay -->
+  <div id="transitionOverlay">
+    <div id="transitionFrom"></div>
+    <div id="transitionTo"></div>
+  </div>
 
   <!-- World Map Modal -->
   <div id="mapModal">
@@ -117,7 +127,6 @@
       </div>
       <div id="mapArea">
         <svg id="mapPaths" xmlns="http://www.w3.org/2000/svg"></svg>
-        <!-- Location nodes injected by JS -->
       </div>
       <div id="mapFooter">
         <div id="mapTravelInfo"></div>
@@ -126,14 +135,24 @@
     </div>
   </div>
 
-  <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-  <div id="transitionOverlay">
-    <div id="transitionFrom"></div>
-    <div id="transitionTo"></div>
+  <!-- Inventory Modal -->
+  <div id="inventoryModal">
+    <div id="inventoryContent">
+      <div id="inventoryHeader">
+        <h2>🎒 Inventory</h2>
+        <button id="inventoryCloseBtn">✕</button>
+      </div>
+      <div id="inventoryGrid"></div>
+    </div>
   </div>
+
+  <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
   <script src="quotes.js"></script>
   <script src="mining_quotes.js"></script>
   <script src="locations.js"></script>
+  <script src="items.js"></script>
+  <script src="sounds.js"></script>
   <script src="state.js"></script>
   <script src="leveling.js"></script>
   <script src="streak.js"></script>
@@ -141,6 +160,9 @@
   <script src="typing.js"></script>
   <script src="scenes.js"></script>
   <script src="worldmap.js"></script>
+  <script src="inventory_ui.js"></script>
+  <script src="wpm.js"></script>
+  <script src="music.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

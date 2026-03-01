@@ -26,6 +26,8 @@ function getNextQuote() {
 
 // --- Global keydown ---
 document.addEventListener("keydown", (e) => {
+  primeSounds(); // prime audio on first keypress
+  tryStartMusic();
   if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
     e.preventDefault();
     if (typingInput.value.length > 0) applySelection();

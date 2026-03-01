@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 html {
@@ -14,7 +15,7 @@ body {
   background: #1e1e2e;
   color: #cdd6f4;
   min-height: 100vh;
-  background-image: url("forest.png");
+  background-image: url("assets/img/forest.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -48,6 +49,11 @@ h1 {
   font-size: 2rem;
   color: #75fd82b5;
   letter-spacing: 0.1em;
+  position: absolute;
+  top: 117px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 p {
@@ -62,7 +68,9 @@ p {
   height: 6.6em;
   overflow: hidden;
   position: relative;
+  margin-top: 140px;
 }
+
 
 #quoteInner {
   position: relative;
@@ -149,12 +157,13 @@ space.selected  {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 2rem 1.4rem;
-  overflow-y: auto;
-  background-image: url('trunk.png');
+  padding: 1.2rem 1.4rem;
+  overflow: hidden;
+  background-image: url('assets/img/trunk.png');
   background-size: cover;
   background-repeat: repeat-y;
   background-position: center;
+  z-index: 100;
 }
 
 #sidebar::before {
@@ -175,7 +184,7 @@ space.selected  {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.7rem 0;
+  padding: 0.45rem 0;
 }
 
 .side-label {
@@ -327,7 +336,7 @@ caret {
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 999;
+  z-index: 1001;
 }
 
 @keyframes xpFloat {
@@ -355,15 +364,20 @@ body.mode-travel .skill-only  { display: none; }
    SCENE COLOR THEMING
    ============================================= */
 body.scene-woodcutting {
-  background-image: url("forest.png");
+  background-image: url("assets/img/forest.png");
 }
 body.scene-mining {
-  background-image: url("mine.png");
+  background-image: url("assets/img/mine.png");
 }
 body.scene-mining #sidebar {
-  background-image: url("stone.jpg");
+  background-image: url("assets/img/stone.jpg");
 }
-body.scene-mining h1                 { color: #e0a96dcc; }
+body.scene-mining h1                 { color: #e0a96dcc; position: absolute;
+  top: 117px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
 body.scene-mining #wcLevel           { color: #e0a96d; }
 body.scene-mining #wcBar             { background: linear-gradient(to right, #e0a96d, #c084fc); }
 body.scene-mining .xp-drop           { color: #e0a96d; }
@@ -385,7 +399,7 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
    MAP BUTTON
    ============================================= */
 #mapBtnWrap {
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
 }
 #mapBtn {
   width: 100%;
@@ -409,9 +423,16 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
    TRAVEL PROGRESS BAR (top of main)
    ============================================= */
 #travelBar {
-  width: 100%;
+  position: absolute;
+  top: 210px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
   max-width: 36rem;
 }
+
+
+
 #travelBarHeader {
   display: flex;
   align-items: center;
@@ -505,7 +526,9 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   display: flex;
 }
 #mapContent {
-  background: #0d1a0d;
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    url('assets/img/map.png') center / cover;
   border: 1px solid #3a4a3a;
   border-radius: 10px;
   width: min(680px, 90vw);
@@ -540,9 +563,6 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-    url('map.png') center / cover;
   overflow: hidden;
 }
 #mapPaths {
@@ -652,58 +672,198 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
 }
 
 /* =============================================
-   TRAVEL / AGILITY SCENE
+   INVENTORY BUTTON (bottom of sidebar)
    ============================================= */
-body.mode-travel {
-  background-image: url("travel.png"); /* your walking path background */
+#inventoryBtnWrap {
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+#inventoryBtn {
+  width: 100%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid #ffffff33;
+  border-radius: 6px;
+  color: #dbdbdb;
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.5rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, border-color 0.2s;
+}
+#inventoryBtn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #ffffff66;
 }
 
-body.mode-travel #sidebar {
-  background-image: url("path.png"); /* your sidebar texture while traveling */
+/* =============================================
+   INVENTORY MODAL
+   ============================================= */
+#inventoryModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#inventoryModal.open { display: flex; }
+
+#inventoryContent {
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url('assets/img/inventory_bg.png') center / cover;
+  border: 1px solid #3a4a3a;
+  border-radius: 10px;
+  width: min(700px, 92vw);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Agility level number color */
-body.mode-travel #agilLevel {
-  color: #89b4fa;
+#inventoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid #3a4a3a;
+  flex-shrink: 0;
+}
+#inventoryHeader h2 {
+  font-size: 1rem;
+  color: #d1d3d0;
+  letter-spacing: 0.1em;
+  font-weight: normal;
+}
+#inventoryCloseBtn {
+  background: none;
+  border: none;
+  color: #6c7086;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+#inventoryCloseBtn:hover { color: #cdd6f4; }
+
+#inventoryGrid {
+  overflow-y: auto;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-/* Agility XP bar */
-body.mode-travel #agilBar {
-  background: linear-gradient(to right, #89b4fa, #a6e3a1);
+.inv-category-header {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #6c7086;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #1e2e1e;
 }
 
-/* Correct letters while traveling */
+.inv-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Item cards */
+.inv-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 4.5rem;
+  padding: 0.5rem 0.3rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: default;
+  transition: border-color 0.2s;
+}
+
+.inv-card.found {
+  background: rgba(255,255,255,0.05);
+  border-color: #ffffff18;
+}
+.inv-card.found:hover {
+  border-color: #ffffff33;
+}
+
+.inv-card.undiscovered {
+  background: rgba(0,0,0,0.3);
+  border-color: #ffffff08;
+}
+
+.inv-card-icon {
+  font-size: 1.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inv-card.undiscovered .inv-card-icon {
+  filter: grayscale(1) brightness(0.25);
+}
+
+.inv-card-name {
+  font-size: 0.55rem;
+  text-align: center;
+  color: #9399b2;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+.inv-card.undiscovered .inv-card-name { color: #3a3a4a; }
+
+.inv-card-qty {
+  font-size: 0.65rem;
+  font-weight: bold;
+  color: #d1d3d0;
+}
+.inv-card.undiscovered .inv-card-qty { color: transparent; }
+
+
+/* =============================================
+   TRAVEL MODE: force agility (blue) palette
+   regardless of which scene class is also set
+   ============================================= */
+body.mode-travel h1 {
+  color: #89b4facc;
+  position: absolute;
+  top: 117px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
 body.mode-travel letter.correct {
   color: #89b4fa;
 }
-
-/* XP drops while traveling */
 body.mode-travel .xp-drop {
   color: #89b4fa;
 }
-
-/* Title color while traveling */
-body.mode-travel h1 {
-  color: #89b4facc;
-}
-
-/* Next button glow while traveling */
 body.mode-travel #nextBtn.glow {
   border-color: #89b4fa;
   color: #89b4fa;
   animation: pulseBlue 1.5s ease-in-out infinite;
 }
-
-/* Travel progress bar accent */
 body.mode-travel .travel-arrow {
   color: #89b4fa;
 }
-
+body.mode-travel #travelProgressFill {
+  background: linear-gradient(to right, #89b4fa, #a6e3a1);
+}
 @keyframes pulseBlue {
   0%, 100% { box-shadow: 0 0 8px #89b4fa55, 0 0 18px #89b4fa22; }
   50%       { box-shadow: 0 0 16px #89b4fa88, 0 0 32px #89b4fa44; }
 }
 
+/* =============================================
+   SCENE TRANSITION OVERLAY
+   ============================================= */
 #transitionOverlay {
   display: none;
   position: fixed;
@@ -728,4 +888,163 @@ body.mode-travel .travel-arrow {
 }
 #transitionFrom.fading {
   animation: crossFade 3s ease forwards;
+}
+
+/* =============================================
+   TRAVEL MODE BACKGROUND (overrides scene classes)
+   ============================================= */
+body.mode-travel,
+body.mode-travel.scene-woodcutting,
+body.mode-travel.scene-mining {
+  background-image: url("assets/img/travel.png");
+}
+
+body.mode-travel #sidebar,
+body.mode-travel.scene-woodcutting #sidebar,
+body.mode-travel.scene-mining #sidebar {
+  background-image: url("assets/img/path.png");
+}
+
+/* =============================================
+   LAST DROP MULTI-ICON DISPLAY
+   ============================================= */
+#lastDropIcons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  align-items: center;
+  height: 1.8rem;   /* fixed — add this line */
+  min-height: unset; /* remove the old min-height */
+  color: #6c7086;
+  font-size: 0.85rem;
+  overflow: visible;
+}
+
+.last-drop-icon {
+  font-size: 1.3rem;
+  display: inline-block;
+  animation: pop 0.35s ease forwards;
+}
+
+.item-img-icon {
+  width: 1.4em;
+  height: 1.4em;
+  object-fit: contain;
+  display: block;
+  vertical-align: top;
+  image-rendering: pixelated;
+}
+
+.undiscovered-img {
+  filter: grayscale(1) brightness(0.25);
+}
+
+/* =============================================
+   MUSIC TOGGLE BUTTON (top left)
+   ============================================= */
+#musicBtn {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid #ffffff22;
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+#musicBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff55;
+}
+#musicBtn.muted {
+  opacity: 0.45;
+}
+
+/* =============================================
+   WPM DISPLAY
+   ============================================= */
+#controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#wpmDisplay {
+  position: absolute;
+  left: calc(50% + 1.8rem);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #cdd6f4;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#wpmDisplay.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wpm-unit {
+  font-size: 0.7rem;
+  font-weight: normal;
+  color: #6c7086;
+  margin-left: 0.1em;
+}
+
+.wpm-pb {
+  font-size: 0.75rem;
+  color: #a6e3a1;
+  margin-left: 0.4em;
+  animation: pbPop 0.4s ease forwards;
+}
+
+.wpm-new {
+  font-size: 0.75rem;
+  color: #89b4fa;
+  margin-left: 0.4em;
+  animation: pbPop 0.4s ease forwards;
+}
+
+.wpm-below {
+  font-size: 0.75rem;
+  color: #6c7086;
+  margin-left: 0.4em;
+}
+
+#wpmLabel {
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  text-align: center;
+  height: 1.2rem;
+}
+
+#wpmLabel.visible {
+  opacity: 1;
+}
+
+
+@keyframes pbPop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1);   opacity: 1; }
 }

@@ -21,12 +21,13 @@ function getLevelInfo(totalXp) {
 function updateLevelUI() {
   const { level, currentXp, neededXp } = getLevelInfo(xp);
   const wcLevelEl = document.getElementById('wcLevel');
-  wcLevelEl.textContent = level;
+  wcLevelEl.textContent = `${level} / ${MAX_LEVEL}`;
   if (level > _lastLevel) {
     wcLevelEl.classList.remove('level-up');
     void wcLevelEl.offsetWidth;
     wcLevelEl.classList.add('level-up');
     _lastLevel = level;
+    playLevelUpSound();
   }
   const pct = level < MAX_LEVEL ? (currentXp / neededXp) * 100 : 100;
   document.getElementById('wcBar').style.width = pct + '%';
