@@ -139,7 +139,7 @@ function enterTravelMode() {
   updateAgilityUI();
   updateTravelProgressBar(0, 1);
 
-  rebuildQuotePool();
+  //rebuildQuotePool();
   buildQuote(getNextQuote());
   updateTravelProgressBar(0, wordElements.length);
   typingInput.focus();
@@ -188,7 +188,7 @@ function arriveAtDestination() {
     exitTravelMode();
     updateSceneUI();
     updateStreakUI();
-    rebuildQuotePool();
+    //rebuildQuotePool();
     buildQuote(getNextQuote());
     //showArrivalBanner(LOCATIONS[currentLocation].name);
 
