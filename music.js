@@ -17,6 +17,7 @@ let _fadeInterval = null;
 let _trackIndex   = 0;
 let _musicStarted = false;
 let _fadingOut    = false;
+let _sfxEnabled = localStorage.getItem('typoria_sfx') !== 'false';
 
 function loadTrack(index) {
   if (_music) {
@@ -86,14 +87,18 @@ function fadeOut(onDone, durationMs = 600) {
 
 function startMusic() {
   _musicEnabled = true;
+  _sfxEnabled   = true;
   localStorage.setItem('typoria_music', 'true');
+  localStorage.setItem('typoria_sfx',   'true');
   fadeIn();
   updateMusicBtn();
 }
 
 function stopMusic() {
   _musicEnabled = false;
+  _sfxEnabled   = false;
   localStorage.setItem('typoria_music', 'false');
+  localStorage.setItem('typoria_sfx',   'false');
   fadeOut(() => _music.pause());
   updateMusicBtn();
 }

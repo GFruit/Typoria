@@ -47,6 +47,7 @@ function getRarestItem(droppedIds) {
 }
 
 function playDropSound(droppedIds) {
+  if (!_sfxEnabled) return;
   const rarestId = getRarestItem(droppedIds);
   if (!rarestId) return;
   const item = getItem(rarestId);
@@ -61,6 +62,7 @@ function playDropSound(droppedIds) {
 const _soundCooldowns = {}; // url -> timestamp of last play
 
 function playSound(urls, volume = 0.5, cooldown = 0) {
+  if (!_sfxEnabled) return;
   const url = Array.isArray(urls)
     ? urls[Math.floor(Math.random() * urls.length)]
     : urls;
@@ -84,6 +86,7 @@ function primeLevelUpSound() {
 }
 
 function playLevelUpSound() {
+  if (!_sfxEnabled) return;
   const audio = _audioCache[LEVELUP_SOUND];
   if (!audio) return;
   const clone = audio.cloneNode();
