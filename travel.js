@@ -115,6 +115,7 @@ function getNextTravelQuote() {
 
 // --- Arrival guard ---
 let arriving = false;
+let transitioning = false;
 
 // Letter counter (shown in sidebar Journey section)
 let travelLettersDone = 0;
@@ -185,6 +186,9 @@ function onTravelWordComplete(xpGain, mult, wordIndex, totalWords) {
     travelStepsDone = 1;
     saveTravelState();
     wpmOnQuoteComplete();
+    typingInput.disabled = true;
+    transitioning = true;
+    document.getElementById("nextBtn").style.pointerEvents = 'none';
     setTimeout(arriveAtDestination, 2000);
   }
 }
@@ -237,6 +241,7 @@ function arriveAtDestination() {
   const toast = document.getElementById('achievementToast');
   if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
     arriving = false;
+    transitioning = false;
     typingInput.disabled = false;
     setTimeout(arriveAtDestination, 100);
     return;
@@ -290,6 +295,7 @@ function arriveAtDestination() {
     arriving = false;
     typingInput.disabled = false;
     typingInput.focus();
+    document.getElementById("nextBtn").style.pointerEvents = '';
     console.log(destId);
     checkTravelAchievements(destId); //e.g. Travel to Mine, Travel to Campsite, etc.
   }, 3000);

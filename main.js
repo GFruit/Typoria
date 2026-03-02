@@ -58,8 +58,10 @@ document.addEventListener("keydown", (e) => {
   }
 
   if (e.key === "Enter") {
+    if (transitioning) return;
     nextBtn.classList.remove('glow');
     buildQuote(getNextQuote());
+    if (gameMode === 'travel') updateTravelProgressBar(0, wordElements.length);
     typingInput.focus();
     return;
   }
