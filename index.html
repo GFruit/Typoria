@@ -16,6 +16,11 @@
   <div id="main">
     <h1>Typoria</h1>
 
+    <div id="achievementToast">
+      <div id="achievementToastLabel">Achievement Unlocked</div>
+      <div id="achievementToastName"></div>
+    </div>
+
     <!-- Travel progress bar (travel mode only) -->
     <div id="travelBar" class="travel-only">
       <div id="travelBarHeader">
@@ -146,9 +151,9 @@
   <!-- Scene transition overlay -->
   <div id="transitionOverlay">
     <div id="transitionFrom"></div>
-    <div id="transitionTo"></div>
+    <div id="transitionTo"></div> 
   </div>
-
+  
   <!-- World Map Modal -->
   <div id="mapModal">
     <div id="mapContent">
@@ -187,6 +192,8 @@
     </div>
   </div>
 
+  
+
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
   <script src="quotes.js"></script>
@@ -208,5 +215,6 @@
   <script src="wpm.js"></script>
   <script src="music.js"></script>
   <script src="main.js"></script>
+  <script src="achievements.js"></script>
 </body>
 </html>

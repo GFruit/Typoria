@@ -17,6 +17,7 @@ function updateStreakUI() {
   const topStreak = parseInt(localStorage.getItem('typoria_top_streak') || '0');
   if (streak > topStreak) {
     localStorage.setItem('typoria_top_streak', streak);
+    checkStreakAchievements(streak)
   }
   document.getElementById('streakTop').textContent = `Top: ${Math.max(streak, topStreak)}`;
 }

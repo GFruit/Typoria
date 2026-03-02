@@ -184,7 +184,8 @@ function onTravelWordComplete(xpGain, mult, wordIndex, totalWords) {
   if (wordIndex + 1 >= totalWords) {
     travelStepsDone = 1;
     saveTravelState();
-    setTimeout(arriveAtDestination, 400);
+    wpmOnQuoteComplete();
+    setTimeout(arriveAtDestination, 2000);
   }
 }
 
@@ -233,6 +234,14 @@ function arriveAtDestination() {
   arriving = true;
   typingInput.disabled = true;
 
+  const toast = document.getElementById('achievementToast');
+  if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
+    arriving = false;
+    typingInput.disabled = false;
+    setTimeout(arriveAtDestination, 100);
+    return;
+  }
+
   const destId = travelDest;
 
   const overlay = document.getElementById('transitionOverlay');
@@ -251,6 +260,8 @@ function arriveAtDestination() {
 
   overlay.classList.add('active');
   fromEl.classList.add('fading');
+
+ 
 
   setTimeout(() => {
     currentLocation     = destId;
@@ -279,6 +290,8 @@ function arriveAtDestination() {
     arriving = false;
     typingInput.disabled = false;
     typingInput.focus();
+    console.log(destId);
+    checkTravelAchievements(destId); //e.g. Travel to Mine, Travel to Campsite, etc.
   }, 3000);
 }
 

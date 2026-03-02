@@ -52,7 +52,8 @@ function awardItem(id, qty = 1) {
     localStorage.setItem('typoria_discovered', JSON.stringify([...discoveredItems]));
   }
   saveInventory();
-
+  
+  trackGlobalItemCounts(id, qty);
 }
 
 function getItemQty(id) {

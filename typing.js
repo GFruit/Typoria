@@ -54,6 +54,7 @@ function buildQuote(quote) {
   wordElements  = [];
   spaceElements = [];
   currentWordIndex = 0;
+  wordErrorCount = 0;
   typingInput.value    = "";
   typingInput.disabled = false;
   caretEl.remove();
@@ -194,17 +195,18 @@ function submitWord(targetWord) {
     onCookingWord(hadError, targetWord, mult);
     
   } else {
+
+
+
     // --- Skill mode ---
     const scene      = getScene();
     const skillLevel = getLevelInfo(xp).level;
     const dropped    = rollDrops(scene.skill, skillLevel);
-
     const itemXp = dropped.reduce((sum, id) => {
       const item = getItem(id);
       return sum + (item ? (item.xp || 0) : 0);
     }, 0);
     const xpGain2 = hadError ? 0 : Math.round((itemXp > 0 ? itemXp : targetWord.length) * mult);
-
     if (xpGain2 > 0) {
       xp += xpGain2;
       saveState();
@@ -217,6 +219,8 @@ function submitWord(targetWord) {
       dropped.forEach(id => awardItem(id));
       updateLastDropDisplay(dropped);
       playDropSound(dropped);
+    } else { //if hadError
+      wordErrorCount = wordErrorCount + 1;
     }
   }
 
@@ -226,12 +230,13 @@ function submitWord(targetWord) {
     wordElements[currentWordIndex].classList.add("current-word");
     updateCaret(getSlots(currentWordIndex), 0);
     scrollToCurrentLine();
-  } else {
+  } else { // Quote Finished
     caretEl.remove();
     typingInput.disabled = true;
     nextBtn.classList.add('glow');
     if (gameMode !== 'travel') {
       wpmOnQuoteComplete();
+      checkAccuracyAchievements(wordErrorCount);
     }
   }
 

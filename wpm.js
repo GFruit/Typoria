@@ -87,6 +87,7 @@ function wpmOnQuoteComplete() {
   localStorage.setItem('typoria_wpm_scores', JSON.stringify(_wpmScores));
 
   showWpmDisplay(wpm, { isFirst, isPB, isAboveAvg, prevPB, prevAvg, newAvg });
+  checkWpmAchievements(wpm)
 }
 
 function showWpmDisplay(wpm, { isFirst, isPB, isAboveAvg, prevPB, prevAvg, newAvg }) {

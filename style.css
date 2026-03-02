@@ -946,7 +946,7 @@ body.mode-travel.scene-fishing #sidebar {
   height: 1.4em;
   object-fit: contain;
   display: block;
-  vertical-align: top;
+  /*vertical-align: top;*/
   image-rendering: pixelated;
 }
 
@@ -1399,4 +1399,54 @@ body.mode-travel.scene-cooking .xp-drop       { color: #89b4fa; }
   background: linear-gradient(to right, #a6e3a1, #94e2d5);
   border-radius: 2px;
   transition: width 0.3s ease;
+}
+
+/* =============================================
+   ACHIEVEMENT TOAST
+   ============================================= */
+#achievementToast {
+  z-index: 9999;
+  position: absolute;
+  top: 117px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: normal; 
+  width: 16rem;
+  text-align: center;                
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('assets/img/trunk.png');
+  background-size: cover;
+  background-position: center;
+
+  border: 1px solid #f9e2af33;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-family: monospace;
+  pointer-events: none;
+  z-index: 10;
+
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#achievementToast.show {
+  opacity: 1;
+}
+
+#achievementToastLabel {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #ABE2A6;
+  text-align: center;
+}
+
+#achievementToastName {
+  font-size: 0.8rem;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.05em;
 }
