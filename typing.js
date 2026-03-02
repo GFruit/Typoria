@@ -167,6 +167,7 @@ function submitWord(targetWord) {
     spEl.textContent = " ";
   }
 
+  const hadError = wordHadError;
   if (wordHadError) {
     streak = 0;
   } else {
@@ -180,25 +181,43 @@ function submitWord(targetWord) {
 
   if (gameMode === 'travel') {
     // --- Travel mode ---
-    spawnXpDrop(xpGain, mult);
-    onTravelWordComplete(xpGain, mult, currentWordIndex, wordElements.length);
+    const travelXp = hadError ? 0 : xpGain;
+    if (travelXp != 0) {
+      spawnXpDrop(travelXp, mult);
+    }
+    
+    onTravelWordComplete(travelXp, mult, currentWordIndex, wordElements.length);
 
+  } else if (currentScene === 'cooking') {
+    // --- Cooking mode ---
+    console.log('[TYPING] calling onCookingWord, typeof:', typeof onCookingWord);
+    onCookingWord(hadError, targetWord, mult);
+    
   } else {
     // --- Skill mode ---
-    xp += xpGain;
-    saveState();
-    xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
-    updateLevelUI();
-    spawnXpDrop(xpGain, mult);
-
-    // Roll drops for current skill level
     const scene      = getScene();
     const skillLevel = getLevelInfo(xp).level;
     const dropped    = rollDrops(scene.skill, skillLevel);
 
-    dropped.forEach(id => awardItem(id));
-    updateLastDropDisplay(dropped);
-    playDropSound(dropped);
+    const itemXp = dropped.reduce((sum, id) => {
+      const item = getItem(id);
+      return sum + (item ? (item.xp || 0) : 0);
+    }, 0);
+    const xpGain2 = hadError ? 0 : Math.round((itemXp > 0 ? itemXp : targetWord.length) * mult);
+
+    if (xpGain2 > 0) {
+      xp += xpGain2;
+      saveState();
+      xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
+      updateLevelUI();
+      spawnXpDrop(xpGain2, mult);
+    }
+
+    if (!hadError) {
+      dropped.forEach(id => awardItem(id));
+      updateLastDropDisplay(dropped);
+      playDropSound(dropped);
+    }
   }
 
   currentWordIndex++;
@@ -211,8 +230,9 @@ function submitWord(targetWord) {
     caretEl.remove();
     typingInput.disabled = true;
     nextBtn.classList.add('glow');
-    if (gameMode !== 'travel') wpmOnQuoteComplete();
-
+    if (gameMode !== 'travel') {
+      wpmOnQuoteComplete();
+    }
   }
 
   typingInput.value = "";

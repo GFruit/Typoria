@@ -331,6 +331,12 @@ caret {
 #streakCount { font-size: 1.6rem; font-weight: bold; color: #f9e2af; line-height: 1; }
 #streakMult  { font-size: 0.85rem; color: #f38ba8; font-weight: bold; }
 
+.streak-top {
+  font-size: 0.6rem;
+  color: #6c7086;
+  letter-spacing: 0.05em;
+}
+
 #xpDropContainer {
   position: fixed;
   top: 0; left: 0;
@@ -467,7 +473,7 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
 #agilSkill { display: flex; flex-direction: column; gap: 0.35rem; }
 #agilHeader { display: flex; align-items: center; gap: 0.5rem; }
 #agilIcon   { font-size: 1.5rem; line-height: 1; }
-#agilLevel  { font-size: 1.8rem; font-weight: bold; color: #89b4fa; line-height: 1; }
+#agilLevel  { font-size: 1.8rem; font-weight: bold; color: #89b4fa !important; line-height: 1; }
 
 #agilBarWrap {
   width: 100%;
@@ -528,27 +534,22 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
 #mapContent {
   background:
     linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-    url('assets/img/map.png') center / cover;
+    url('assets/img/map.jpg') center / cover;
   border: 1px solid #3a4a3a;
   border-radius: 10px;
-  width: min(680px, 90vw);
+  width: min(1200px, 95vw);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 #mapHeader {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.8rem 1.2rem;
-  border-bottom: 1px solid #3a4a3a;
+  justify-content: flex-end;
+  padding: 0;
+  border-bottom: none;
+  position: relative;
 }
-#mapHeader h2 {
-  font-size: 1rem;
-  color: #a6e3a1;
-  letter-spacing: 0.1em;
-  font-weight: normal;
-}
+
 #mapCloseBtn {
   background: none;
   border: none;
@@ -556,6 +557,10 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   font-size: 1rem;
   cursor: pointer;
   padding: 0.2rem 0.4rem;
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 10;
 }
 #mapCloseBtn:hover { color: #cdd6f4; }
 
@@ -564,6 +569,7 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  min-height: 80vh;
 }
 #mapPaths {
   position: absolute;
@@ -572,14 +578,14 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   height: 100%;
 }
 .map-path {
-  stroke: #ffffff22;
+  stroke: #ffffff71;
   stroke-width: 2;
   stroke-dasharray: 6 4;
 }
 .map-path-label {
-  fill: #6c7086;
+  fill: #d2d2d2;
   font-family: monospace;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 /* Location nodes */
@@ -602,7 +608,7 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.743);
   border: 1px solid #ffffff22;
   border-radius: 50%;
   transition: border-color 0.2s;
@@ -674,24 +680,31 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
 /* =============================================
    INVENTORY BUTTON (bottom of sidebar)
    ============================================= */
-#inventoryBtnWrap {
+#bottomBtnWrap {
   margin-top: auto;
   padding-top: 0.4rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
 }
-#inventoryBtn {
-  width: 100%;
+#inventoryBtn, #achievementsBtn {
+  flex: 1;
+  min-width: 0;
   background: rgba(0,0,0,0.35);
   border: 1px solid #ffffff33;
   border-radius: 6px;
   color: #dbdbdb;
   font-family: monospace;
-  font-size: 0.75rem;
-  padding: 0.45rem 0.5rem;
+  font-size: 0.57rem;
+  padding: 0.45rem 0.3rem;
   cursor: pointer;
   letter-spacing: 0.05em;
   transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-#inventoryBtn:hover {
+#inventoryBtn:hover, #achievementsBtn:hover {
   background: rgba(255,255,255,0.12);
   border-color: #ffffff66;
 }
@@ -832,7 +845,7 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
    regardless of which scene class is also set
    ============================================= */
 body.mode-travel h1 {
-  color: #89b4facc;
+  color: #89b4facc !important;
   position: absolute;
   top: 117px;
   left: 50%;
@@ -840,14 +853,14 @@ body.mode-travel h1 {
   white-space: nowrap;
 }
 body.mode-travel letter.correct {
-  color: #89b4fa;
+  color: #89b4fa !important;
 }
 body.mode-travel .xp-drop {
-  color: #89b4fa;
+  color: #89b4fa !important;
 }
 body.mode-travel #nextBtn.glow {
-  border-color: #89b4fa;
-  color: #89b4fa;
+  border-color: #89b4fa !important;
+  color: #89b4fa !important;
   animation: pulseBlue 1.5s ease-in-out infinite;
 }
 body.mode-travel .travel-arrow {
@@ -895,13 +908,15 @@ body.mode-travel #travelProgressFill {
    ============================================= */
 body.mode-travel,
 body.mode-travel.scene-woodcutting,
-body.mode-travel.scene-mining {
+body.mode-travel.scene-mining,
+body.mode-travel.scene-fishing {
   background-image: url("assets/img/travel.png");
 }
 
 body.mode-travel #sidebar,
 body.mode-travel.scene-woodcutting #sidebar,
-body.mode-travel.scene-mining #sidebar {
+body.mode-travel.scene-mining #sidebar,
+body.mode-travel.scene-fishing #sidebar {
   background-image: url("assets/img/path.png");
 }
 
@@ -1047,4 +1062,341 @@ body.mode-travel.scene-mining #sidebar {
   0%   { transform: scale(0.7); opacity: 0; }
   60%  { transform: scale(1.2); }
   100% { transform: scale(1);   opacity: 1; }
+}
+
+/* =============================================
+   FISHING SCENE THEMING
+   ============================================= */
+body.scene-fishing {
+  background-image: url("assets/img/lake.png"); /* placeholder */
+}
+body.scene-fishing #sidebar {
+  background-image: url("assets/img/plank.png"); /* placeholder */
+}
+body.scene-fishing h1                 { color: #89dcebcc; }
+body.scene-fishing #wcLevel           { color: #89dceb !important; }
+body.scene-fishing #wcBar             { background: linear-gradient(to right, #89dceb, #74c7ec); }
+body.scene-fishing .xp-drop           { color: #89dceb; }
+body.scene-fishing letter.correct     { color: #89dceb; }
+body.scene-fishing #nextBtn.glow      {
+  border-color: #89dceb;
+  color: #89dceb;
+  animation: pulseFishing 1.5s ease-in-out infinite;
+}
+@keyframes pulseFishing {
+  0%, 100% { box-shadow: 0 0 8px #89dceb55, 0 0 18px #89dceb22; }
+  50%       { box-shadow: 0 0 16px #89dceb88, 0 0 32px #89dceb44; }
+}
+
+/* travel into fishing scene */
+body.mode-travel.scene-fishing {
+  background-image: url("assets/img/travel.png");
+}
+body.mode-travel.scene-fishing #sidebar {
+  background-image: url("assets/img/path.png");
+}
+
+/* =============================================
+   COOKING SCENE THEMING
+   ============================================= */
+body.scene-cooking {
+  background-image: url("assets/img/campsite.jpg");
+}
+body.scene-cooking #sidebar {
+  background-image: url("assets/img/dirt.jpg");
+}
+body.scene-cooking #sidebar::before {
+  background: rgba(0, 0, 0, 0.774);
+}
+
+
+body.scene-cooking h1                { color: #fab387cc; }
+body.scene-cooking #wcLevel          { color: #fab387 !important; }
+body.scene-cooking #wcBar            { background: linear-gradient(to right, #fab387, #f9e2af); }
+body.scene-cooking .xp-drop          { color: #fab387; }
+body.scene-cooking letter.correct    { color: #fab387; }
+body.scene-cooking #nextBtn.glow     {
+  border-color: #fab387;
+  color: #fab387;
+  animation: pulseCooking 1.5s ease-in-out infinite;
+}
+@keyframes pulseCooking {
+  0%, 100% { box-shadow: 0 0 8px #fab38755, 0 0 18px #fab38722; }
+  50%       { box-shadow: 0 0 16px #fab38788, 0 0 32px #fab38744; }
+}
+
+body.scene-cooking .hide-cooking {
+  display: none;
+}
+
+body.mode-travel.scene-cooking {
+  background-image: url("assets/img/travel.png");
+}
+body.mode-travel.scene-cooking #sidebar {
+  background-image: url("assets/img/path.png");
+}
+body.mode-travel.scene-cooking letter.correct { color: #89b4fa; }
+body.mode-travel.scene-cooking h1             { color: #89b4facc; }
+body.mode-travel.scene-cooking .xp-drop       { color: #89b4fa; }
+
+/* =============================================
+   FIREPLACE UI
+   ============================================= */
+#fireplaceArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#fireplaceSlots {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#fireplaceSlots {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.fireplace-slot {
+  flex: 1;
+  padding: 0.25rem 0.15rem;
+  /* keep existing properties, just reduce padding */
+}
+
+.fireplace-slot:hover {
+  border-color: #fab38766;
+  background: rgba(250, 179, 135, 0.08);
+}
+
+.fireplace-arrow {
+  font-size: 2rem;
+  color: #fab387;
+  flex-shrink: 0;
+  padding: 0 0.1rem;
+  margin-bottom: calc(0.8rem + 0.15rem + 3px); /* slot-count height + bar height */
+}
+
+.fireplace-slot-output {
+  cursor: default;
+}
+
+.slot-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+}
+
+.slot-label-small { display: none; }
+
+.slot-count {
+  font-size: 0.55rem;
+  color: #fab387;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  text-align: center;
+  height: 0.8rem;
+}
+
+/* =============================================
+   SLOT PICKER MODAL
+   ============================================= */
+#slotPickerModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#slotPickerModal.open { display: flex; }
+
+#slotPickerContent {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+              url('assets/img/inventory_bg.png') center / cover;
+  border: 1px solid #fab38755;
+  border-radius: 10px;
+  width: min(400px, 90vw);
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#slotPickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid #fab38733;
+  flex-shrink: 0;
+}
+
+#slotPickerTitle {
+  font-size: 0.85rem;
+  color: #fab387;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#slotPickerClose {
+  background: none;
+  border: none;
+  color: #6c7086;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+#slotPickerClose:hover { color: #cdd6f4; }
+
+#slotPickerGrid {
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.picker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 4.5rem;
+  padding: 0.5rem 0.3rem;
+  border-radius: 8px;
+  border: 1px solid #ffffff18;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.picker-card:hover {
+  border-color: #fab38766;
+  background: rgba(250,179,135,0.1);
+}
+.picker-icon { font-size: 1.8rem; }
+.picker-name { font-size: 0.5rem; color: #9399b2; text-align: center; }
+.picker-qty  { font-size: 0.65rem; font-weight: bold; color: #fab387; }
+
+.picker-empty {
+  font-size: 0.75rem;
+  color: #6c7086;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* =============================================
+   TOOL SLOT (top right, cooking scene only)
+   ============================================= */
+#toolSlot {
+  position: fixed;
+  top: 1.2rem;
+  right: 16.2rem; /* just left of sidebar */
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid #fab38744;
+  border-radius: 8px;
+  width: 3rem;
+  padding: 0.3rem 0.2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, border-color 0.2s;
+}
+#toolSlot:hover {
+  background: rgba(250, 179, 135, 0.12);
+  border-color: #fab387aa;
+}
+#toolSlotContent {
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#toolSlotLabel {
+  font-size: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6c7086;
+}
+#toolSlotCount {
+  font-size: 0.55rem;
+  color: #fab387;
+  font-weight: bold;
+}
+
+/* =============================================
+   SESSION COOKED ITEMS
+   ============================================= */
+#sessionCookedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: #6c7086;
+}
+.session-cooked-item {
+  background: rgba(250,179,135,0.08);
+  border: 1px solid #fab38733;
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.7rem;
+  color: #fab387;
+}
+
+/* Flint tool slot progress bar */
+#toolSlotBar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 0.15rem;
+  overflow: hidden;
+}
+
+#toolSlotBarFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #fab387, #f9e2af);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Generic slot health bar (used by logs slot) */
+.slot-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 0.15rem;
+  overflow: hidden;
+}
+.slot-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #a6e3a1, #94e2d5);
+  border-radius: 2px;
+  transition: width 0.3s ease;
 }

@@ -21,6 +21,7 @@ let xp = 0;
 // --- Inventory ---
 // Single shared inventory object across all scenes
 let inventoryData = {};
+let discoveredItems = new Set(JSON.parse(localStorage.getItem('typoria_discovered') || '[]'));
 
 function loadInventory() {
   const saved = localStorage.getItem('typoria_inventory');
@@ -34,6 +35,9 @@ function loadInventory() {
     if (oldLogs)  inventoryData['logs']  = parseInt(oldLogs);
     if (oldRocks) inventoryData['rocks'] = parseInt(oldRocks);
   }
+  // Always seed discovered from existing inventory
+  Object.keys(inventoryData).forEach(id => discoveredItems.add(id));
+  localStorage.setItem('typoria_discovered', JSON.stringify([...discoveredItems]));
 }
 
 function saveInventory() {
@@ -42,7 +46,13 @@ function saveInventory() {
 
 function awardItem(id, qty = 1) {
   inventoryData[id] = (inventoryData[id] || 0) + qty;
+  
+  if (!discoveredItems.has(id)) {
+    discoveredItems.add(id);
+    localStorage.setItem('typoria_discovered', JSON.stringify([...discoveredItems]));
+  }
   saveInventory();
+
 }
 
 function getItemQty(id) {

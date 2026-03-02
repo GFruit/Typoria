@@ -1,48 +1,39 @@
 // --- Item Registry ---
-// Each item has:
-//   id       : unique string key
-//   name     : display name
-//   icon     : emoji or "url('file.png')"
-//   category : groups items in the inventory panel
-//   skill    : which skill's level to check ('woodcutting', 'mining')
-//   sound    : (optional) audio filename to play when this is the rarest drop
-//              e.g. 'chop.mp3' — put the file in your project folder
-//   drops    : array of { minLevel, chance } thresholds
-//              - the highest minLevel that is <= current level is used
-//              - chance is 0.0–1.0  (e.g. 0.1 = 10%)
-//              - omit drops to never drop (placeholder items)
-
 const ITEM_REGISTRY = [
+  // === WOODCUTTING ===
   {
     id: 'logs', name: 'Logs', icon: '🪵', category: 'Woodcutting', skill: 'woodcutting',
-    image: 'assets/img/logs.png',
-    //sound: 'assets/sfx/chop.mp3',       // plays on every word (it's the only/most common drop at low level)
-    drops: [
-      { minLevel: 1, chance: 1.0 },
-    ],
+    xp: 25, burnDuration: 1, sound: 'assets/sfx/chop.m4a', image: 'assets/img/logs.png', volume: 0.4,
+    drops: [{ minLevel: 1, chance: 0.4 }],
   },
   {
     id: 'oak_logs', name: 'Oak Logs', icon: '🌳', category: 'Woodcutting', skill: 'woodcutting',
-    image: 'assets/img/oak_logs.png',
-    //sound: 'assets/sfx/oak_chop.mp3',   // distinct sound for rarer wood
+    xp: 60, burnDuration: 3, sound: 'assets/sfx/chop.m4a', image: 'assets/img/oak_logs.png', volume: 0.4,
     drops: [
       { minLevel: 15, chance: 0.08 },
       { minLevel: 30, chance: 0.15 },
       { minLevel: 60, chance: 0.25 },
     ],
   },
+
+  // === MINING ===
   {
     id: 'rocks', name: 'Rocks', icon: '🪨', category: 'Mining', skill: 'mining',
-    image: 'assets/img/rocks.png',
-    sound: 'assets/sfx/mine.mp3',
+    xp: 10, sound: 'assets/sfx/mine.mp3', image: "assets/img/rocks.png",
+    drops: [{ minLevel: 1, chance: 0.4 }],
+  },
+  {
+    id: 'flint', name: 'Flint', icon: '🔥', category: 'Mining', skill: 'mining',
+    xp: 10, sound: 'assets/sfx/mine.mp3', image: "assets/img/flint.png",
     drops: [
-      { minLevel: 1, chance: 1.0 },
+      { minLevel: 1,  chance: 0.08 },
+      { minLevel: 10, chance: 0.15 },
+      { minLevel: 25, chance: 0.22 },
     ],
   },
   {
     id: 'coal', name: 'Coal', icon: '⚫', category: 'Mining', skill: 'mining',
-    image: 'assets/img/coal.png',
-    //sound: 'assets/sfx/coal.mp3',
+    xp: 50, sound: 'assets/sfx/mine.mp3', image: "assets/img/coal.png",
     drops: [
       { minLevel: 10, chance: 0.10 },
       { minLevel: 20, chance: 0.18 },
@@ -51,8 +42,7 @@ const ITEM_REGISTRY = [
   },
   {
     id: 'iron_ore', name: 'Iron Ore', icon: '🔩', category: 'Mining', skill: 'mining',
-    image: 'assets/img/iron_ore.png',
-    //sound: 'assets/sfx/iron.mp3',
+    xp: 70, sound: 'assets/sfx/mine.mp3', image: "assets/img/iron_ore.png",
     drops: [
       { minLevel: 20, chance: 0.06 },
       { minLevel: 40, chance: 0.12 },
@@ -61,13 +51,60 @@ const ITEM_REGISTRY = [
   },
   {
     id: 'gold_ore', name: 'Gold Ore', icon: '✨', category: 'Mining', skill: 'mining',
-    image: 'assets/img/gold_ore.png',
-    sound: 'assets/sfx/gold.mp3',       // your most exciting sound effect
+    xp: 200, sound: 'assets/sfx/mine.mp3', image: 'assets/img/gold_ore.png',
     drops: [
-      { minLevel: 40, chance: 0.005 },
-      { minLevel: 60, chance: 0.01 },
-      { minLevel: 80, chance: 0.02 },
+      { minLevel: 40, chance: 0.03 },
+      { minLevel: 60, chance: 0.07 },
+      { minLevel: 80, chance: 0.12 },
     ],
+  },
+  {
+    id: 'diamond_ore', name: 'Diamonds', icon: '💎', category: 'Mining', skill: 'mining',
+    xp: 200, sound: 'assets/sfx/diamonds.mp3', image: 'assets/img/diamonds.png',
+    drops: [
+      { minLevel: 70, chance: 0.03 },
+      { minLevel: 85, chance: 0.07 },
+      { minLevel: 99, chance: 0.12 },
+    ],
+  },
+
+  // === FISHING ===
+  {
+    id: 'shrimp', name: 'Shrimp', icon: '🦐', category: 'Fishing', skill: 'fishing',
+    xp: 10, sound: 'assets/sfx/fish.m4a', image: 'assets/img/shrimp_raw.png',
+    drops: [{ minLevel: 1, chance: 0.4 }],
+  },
+  {
+    id: 'trout', name: 'Trout', icon: '🐟', category: 'Fishing', skill: 'fishing',
+    xp: 50, sound: 'assets/sfx/fish.m4a', image: 'assets/img/trout_raw.png',
+    drops: [
+      { minLevel: 20, chance: 0.10 },
+      { minLevel: 40, chance: 0.18 },
+      { minLevel: 60, chance: 0.28 },
+    ],
+  },
+  {
+    id: 'salmon', name: 'Salmon', icon: '🐡', category: 'Fishing', skill: 'fishing',
+    xp: 70, sound: 'assets/sfx/fish.m4a', image: 'assets/img/salmon_raw.png',
+    drops: [
+      { minLevel: 40, chance: 0.05 },
+      { minLevel: 60, chance: 0.10 },
+      { minLevel: 80, chance: 0.18 },
+    ],
+  },
+
+  // === COOKING (produced by cooking, not dropped) ===
+  {
+    id: 'cooked_shrimp', name: 'Cooked Shrimp', icon: '🍤', category: 'Cooking', skill: 'cooking',
+    xp: 30, drops: [], sound: 'assets/sfx/cook.mp3', image: 'assets/img/shrimp_cooked.png'
+  },
+  {
+    id: 'cooked_trout', name: 'Cooked Trout', icon: '🍣', category: 'Cooking', skill: 'cooking',
+    xp: 100, drops: [], sound: 'assets/sfx/cook.mp3', image: 'assets/img/trout_cooked.png'
+  },
+  {
+    id: 'cooked_salmon', name: 'Cooked Salmon', icon: '🐠', category: 'Cooking', skill: 'cooking',
+    xp: 175, drops: [], sound: 'assets/sfx/cook.mp3', image: 'assets/img/salmon_cooked.png'
   },
 ];
 
@@ -91,7 +128,7 @@ function rollDrops(skillId, skillLevel) {
     if (chance <= 0) continue;
     if (Math.random() < chance) dropped.push(item.id);
   }
-  // Sort most-common first for the Last Drop display
+  // Sort most-common first
   dropped.sort((a, b) => {
     const maxChance = id => {
       const it = getItem(id);

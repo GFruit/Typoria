@@ -1,21 +1,3 @@
-// Renders an item icon into a container element.
-// Uses image if defined, falls back to emoji.
-// discovered: if false, applies greyscale filter for undiscovered state.
-function renderItemIcon(container, item, discovered = true) {
-  container.innerHTML = '';
-  if (item.image) {
-    const img = document.createElement('img');
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = 'item-img-icon';
-    if (!discovered) img.classList.add('undiscovered-img');
-    container.appendChild(img);
-  } else {
-    container.textContent = item.icon;
-    if (!discovered) container.style.filter = 'grayscale(1) brightness(0.25)';
-  }
-}
-
 // --- Inventory Overlay ---
 
 function openInventory() {
@@ -46,25 +28,33 @@ function renderInventoryGrid() {
     row.className = 'inv-grid-row';
 
     items.forEach(item => {
-      const qty = getItemQty(item.id);
-      const found = qty > 0;
+      const qty        = getItemQty(item.id);
+      const discovered = discoveredItems.has(item.id);
 
       const card = document.createElement('div');
-      card.className = 'inv-card' + (found ? ' found' : ' undiscovered');
-      card.title = found ? `${item.name}: ${qty}` : '???';
+      card.className = 'inv-card' + (discovered ? ' found' : ' undiscovered');
+      card.title = discovered ? `${item.name}: ${qty}` : '???';
 
       const iconEl = document.createElement('div');
       iconEl.className = 'inv-card-icon';
 
-      renderItemIcon(iconEl, item, found);
+      if (item.image) {
+        iconEl.style.backgroundImage = `url('${item.image}')`;
+        iconEl.style.backgroundSize = 'contain';
+        iconEl.style.backgroundRepeat = 'no-repeat';
+        iconEl.style.backgroundPosition = 'center';
+        if (!discovered) iconEl.style.filter = 'brightness(0)';
+      } else {
+        iconEl.textContent = item.icon;
+      }
 
       const nameEl = document.createElement('div');
       nameEl.className = 'inv-card-name';
-      nameEl.textContent = found ? item.name : '???';
+      nameEl.textContent = discovered ? item.name : '???';
 
       const qtyEl = document.createElement('div');
       qtyEl.className = 'inv-card-qty';
-      qtyEl.textContent = found ? qty.toLocaleString() : '';
+      qtyEl.textContent = discovered ? qty.toLocaleString() : '';
 
       card.appendChild(iconEl);
       card.appendChild(nameEl);
@@ -95,8 +85,18 @@ function updateLastDropDisplay(droppedIds) {
     if (!item) return;
     const span = document.createElement('span');
     span.className = 'last-drop-icon';
-    renderItemIcon(span, item, true);
     span.title = item.name;
+    if (item.image) {
+      span.style.backgroundImage = `url('${item.image}')`;
+      span.style.backgroundSize = 'contain';
+      span.style.backgroundRepeat = 'no-repeat';
+      span.style.backgroundPosition = 'center';
+      span.style.display = 'inline-block';
+      span.style.width = '1.5rem';
+      span.style.height = '1.5rem';
+    } else {
+      span.textContent = item.icon;
+    }
     // Pop animation
     span.classList.add('pop');
     el.appendChild(span);

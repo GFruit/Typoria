@@ -4,7 +4,8 @@
 
 const PLAYLIST = [
   'assets/sfx/music.mp3',       // add more filenames here, e.g. 'music2.mp3'
-  'assets/sfx/music2.mp3'
+  'assets/sfx/music2.mp3',
+  'assets/sfx/music3.mp3'
 ];
 
 const FADE_DURATION = 4.0;  // seconds to fade in at start and out at end

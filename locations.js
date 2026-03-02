@@ -5,8 +5,8 @@ const LOCATIONS = {
     name:  'Forest',
     icon:  '🌲',
     scene: 'woodcutting',
-    x: 22,
-    y: 63,
+    x: 25,
+    y: 80,
   },
   mine: {
     id:    'mine',
@@ -14,13 +14,34 @@ const LOCATIONS = {
     icon:  '⛏️',
     scene: 'mining',
     x: 74,
-    y: 26,
+    y: 35,
+  },
+  lake: {
+    id:    'lake',
+    name:  'The Lake',
+    icon:  '🎣',
+    scene: 'fishing',
+    x: 18,
+    y: 20,
+  },
+  campsite: {
+    id: 'campsite',
+    name: 'Campsite',
+    icon: '🔥',
+    scene: 'cooking',
+    x: 50,
+    y: 72,
   },
 };
 
-// quotes = how many quotes you must complete to finish the journey
+
 const ROUTES = [
-  { from: 'forest', to: 'mine', quotes: 1, name: 'Mountain Path' },
+  { from: 'forest', to: 'mine',  quotes: 1, name: 'Mountain Path' },
+  { from: 'forest', to: 'lake',  quotes: 1, name: 'Lakeside Trail' },
+  { from: 'mine',   to: 'lake',  quotes: 1, name: 'Rocky Descent'  },
+    { from: 'forest',   to: 'campsite', quotes: 1, name: 'Forest Path'    },
+  { from: 'lake',     to: 'campsite', quotes: 1, name: 'Lakeshore Walk' },
+  { from: 'mine',     to: 'campsite', quotes: 1, name: 'Miners Trail'   },
 ];
 
 function getRoute(a, b) {

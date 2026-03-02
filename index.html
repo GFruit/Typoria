@@ -3,11 +3,15 @@
 <head>
   <title>Typoria</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body class="mode-skill scene-woodcutting">
 
   <button id="musicBtn" title="Mute music">🔊</button>
+  <div id="toolSlot" class="cooking-only" style="display:none" title="Equip flint">
+    <div id="toolSlotContent">+</div>
+    <div id="toolSlotCount"></div>
+    <div id="toolSlotBar"><div id="toolSlotBarFill"></div></div>
+  </div>
 
   <div id="main">
     <h1>Typoria</h1>
@@ -62,10 +66,11 @@
       <div id="xpBar">0 <span class="side-unit">XP</span></div>
     </div>
     <div class="side-divider skill-only"></div>
-    <div class="side-section skill-only">
-      <div class="side-label">Last Drop</div>
-      <div id="lastDropIcons">—</div>
-    </div>
+    <div class="side-section skill-only hide-cooking">
+  <div class="side-label">Last Drop</div>
+  <div id="lastDropIcons">—</div>
+</div>
+<div class="side-divider skill-only hide-cooking"></div>
 
     <!-- TRAVEL MODE -->
     <div class="side-section travel-only">
@@ -89,6 +94,30 @@
       </div>
     </div>
 
+
+    <!-- COOKING (cooking scene only) -->
+    <div class="side-section cooking-only" style="display:none">
+      <div class="side-label">Fireplace</div>
+      <div id="fireplaceSlots">
+        <div class="fireplace-slot" id="slotLogs" title="Logs">
+          <div class="slot-icon" id="slotLogsContent">+</div>
+          <div class="slot-count" id="slotLogsCount"></div>
+          <div class="slot-bar" id="logsSlotBar" style="visibility:hidden"><div class="slot-bar-fill" id="logsSlotBarFill"></div></div>
+        </div>
+        <div class="fireplace-slot" id="slotFood" title="Food">
+          <div class="slot-icon" id="slotFoodContent">+</div>
+          <div class="slot-count" id="slotFoodCount"></div>
+           <div class="slot-bar" style="visibility:hidden"><div class="slot-bar-fill"></div></div>
+        </div>
+        <div class="fireplace-arrow">→</div>
+        <div class="fireplace-slot fireplace-slot-output" id="slotCooked" title="Cooked">
+          <div class="slot-icon" id="slotCookedContent">—</div>
+          <div class="slot-count" id="slotCookedCount"></div>
+          <div class="slot-bar" style="visibility:hidden"><div class="slot-bar-fill"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="side-divider cooking-only" style="display:none"></div>
     <!-- SHARED -->
     <div class="side-divider"></div>
     <div class="side-section">
@@ -98,10 +127,11 @@
         <span id="streakCount">0</span>
         <span id="streakMult"></span>
       </div>
+      <div id="streakTop" class="streak-top">Top: 0</div>
     </div>
 
-    <div id="inventoryBtnWrap">
-      <button id="inventoryBtn">🎒 Collection</button>
+    <div id="bottomBtnWrap">
+      <button id="inventoryBtn">🎒 Inventory</button>
     </div>
 
   </div>
@@ -123,7 +153,6 @@
   <div id="mapModal">
     <div id="mapContent">
       <div id="mapHeader">
-        <h2>🗺 World Map</h2>
         <button id="mapCloseBtn">✕</button>
       </div>
       <div id="mapArea">
@@ -147,10 +176,23 @@
     </div>
   </div>
 
+  <!-- Slot Picker Modal -->
+  <div id="slotPickerModal">
+    <div id="slotPickerContent">
+      <div id="slotPickerHeader">
+        <span id="slotPickerTitle">Select Item</span>
+        <button id="slotPickerClose">✕</button>
+      </div>
+      <div id="slotPickerGrid"></div>
+    </div>
+  </div>
+
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
   <script src="quotes.js"></script>
   <script src="mining_quotes.js"></script>
+  <script src="fishing_quotes.js"></script>
+  <script src="cooking_quotes.js"></script>
   <script src="locations.js"></script>
   <script src="items.js"></script>
   <script src="sounds.js"></script>
@@ -162,6 +204,8 @@
   <script src="scenes.js"></script>
   <script src="worldmap.js"></script>
   <script src="inventory_ui.js"></script>
+  <script src="cooking.js"></script>
+  <script src="achievements.js"></script>
   <script src="wpm.js"></script>
   <script src="music.js"></script>
   <script src="main.js"></script>

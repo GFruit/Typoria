@@ -54,7 +54,24 @@ function playDropSound(droppedIds) {
   const audio = _audioCache[item.sound];
   if (!audio) return;
   const clone = audio.cloneNode();
-  clone.volume = 0.1;
+  clone.volume = item.volume ?? 0.1;
+  clone.play().catch(() => {});
+}
+
+const _soundCooldowns = {}; // url -> timestamp of last play
+
+function playSound(urls, volume = 0.5, cooldown = 0) {
+  const url = Array.isArray(urls)
+    ? urls[Math.floor(Math.random() * urls.length)]
+    : urls;
+  if (cooldown > 0) {
+    const lastPlayed = _soundCooldowns[url] || 0;
+    if (Date.now() - lastPlayed < cooldown * 1000) return;
+    _soundCooldowns[url] = Date.now();
+  }
+  const audio = _audioCache[url] || new Audio(url);
+  const clone = audio.cloneNode();
+  clone.volume = volume;
   clone.play().catch(() => {});
 }
 
@@ -70,7 +87,7 @@ function playLevelUpSound() {
   const audio = _audioCache[LEVELUP_SOUND];
   if (!audio) return;
   const clone = audio.cloneNode();
-  clone.volume = 0.4;
+  clone.volume = 0.2;
   clone.play().catch(() => {});
 }
 

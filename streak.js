@@ -13,6 +13,12 @@ function updateStreakUI() {
   const mult = getMultiplier(streak);
   document.getElementById('streakMult').textContent = mult > 1 ? `×${mult}` : '';
   document.getElementById('streakFlame').style.opacity = streak > 0 ? '1' : '0.3';
+
+  const topStreak = parseInt(localStorage.getItem('typoria_top_streak') || '0');
+  if (streak > topStreak) {
+    localStorage.setItem('typoria_top_streak', streak);
+  }
+  document.getElementById('streakTop').textContent = `Top: ${Math.max(streak, topStreak)}`;
 }
 
 // --- XP drops ---
