@@ -3,7 +3,7 @@ const MAX_LEVEL = 99;
 let _lastLevel = 1;
 
 function xpForLevel(level) {
-  return Math.floor(500 + 4 * Math.pow(level, 2.5));
+  return Math.floor(83 * Math.pow(1.1, level) + 500);
 }
 
 function getLevelInfo(totalXp) {
