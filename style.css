@@ -577,15 +577,19 @@ body.scene-mining #wcLevel.level-up  { animation: levelUpMining 0.5s ease forwar
   width: 100%;
   height: 100%;
 }
+
 .map-path {
   stroke: #ffffff71;
   stroke-width: 2;
   stroke-dasharray: 6 4;
 }
+
+
 .map-path-label {
   fill: #d2d2d2;
   font-family: monospace;
   font-size: 16px;
+  visibility: hidden !important;
 }
 
 /* Location nodes */
@@ -957,32 +961,25 @@ body.mode-travel.scene-fishing #sidebar {
 /* =============================================
    MUSIC TOGGLE BUTTON (top left)
    ============================================= */
-#musicBtn {
+#audioBtns {
   position: fixed;
-  top: 1.2rem;
-  left: 1.2rem;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid #ffffff22;
-  border-radius: 50%;
-  width: 2.2rem;
-  height: 2.2rem;
-  font-size: 1rem;
-  cursor: pointer;
+  top: 1rem;
+  left: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
-  line-height: 1;
-  padding: 0;
+  gap: 0.3rem;
+  z-index: 100;
 }
-#musicBtn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #ffffff55;
+#musicBtn, #sfxBtn {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid #ffffff22;
+  border-radius: 6px;
+  color: #cdd6f4;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
 }
-#musicBtn.muted {
-  opacity: 0.45;
+#musicBtn.muted, #sfxBtn.muted {
+  filter: grayscale(100%) opacity(0.4);
 }
 
 /* =============================================

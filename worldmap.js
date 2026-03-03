@@ -21,31 +21,6 @@ function renderMapNodes() {
   // Draw SVG paths
   const svg = document.getElementById('mapPaths');
   svg.innerHTML = '';
-  ROUTES.forEach(route => {
-    const a = LOCATIONS[route.from];
-    const b = LOCATIONS[route.to];
-
-    // Dashed path line
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', a.x + '%');
-    line.setAttribute('y1', a.y + '%');
-    line.setAttribute('x2', b.x + '%');
-    line.setAttribute('y2', b.y + '%');
-    line.setAttribute('class', 'map-path');
-    svg.appendChild(line);
-
-    // Route label at midpoint
-    const midX = (a.x + b.x) / 2;
-    const midY = (a.y + b.y) / 2;
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', midX + '%');
-    text.setAttribute('y', midY + '%');
-    text.setAttribute('class', 'map-path-label');
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('dy', '-6');
-    text.textContent = route.name;
-    svg.appendChild(text);
-  });
 
   // Draw location nodes
   Object.values(LOCATIONS).forEach(loc => {
@@ -77,6 +52,8 @@ function renderMapNodes() {
 function updateMapFooter() {
   const btn  = document.getElementById('mapTravelBtn');
   const info = document.getElementById('mapTravelInfo');
+  const svg  = document.getElementById('mapPaths');
+  svg.innerHTML = '';
 
   if (gameMode === 'travel') {
     const dest = LOCATIONS[travelDest];
@@ -105,11 +82,35 @@ function updateMapFooter() {
     info.textContent = currentLoc ? `You are at: ${currentLoc.name}` : '';
     return;
   }
+
   btn.disabled     = false;
   btn.textContent  = `Travel to ${dest.name}`;
-  info.textContent = route
-    ? route.name
-    : 'No route found';
+  info.textContent = `${currentLoc ? `You are at: ${currentLoc.name}` : ''}${route ? '' + route.name : ''}`;
+
+  // Draw line to selected destination
+  if (route) {
+    const a    = LOCATIONS[currentLocation];
+    const b    = LOCATIONS[selectedMapNode];
+    console.log('drawing line', a, b, a.x, a.y, b.x, b.y);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', a.x + '%');
+    line.setAttribute('y1', a.y + '%');
+    line.setAttribute('x2', b.x + '%');
+    line.setAttribute('y2', b.y + '%');
+    line.setAttribute('class', 'map-path');
+    svg.appendChild(line);
+
+    const midX = (a.x + b.x) / 2;
+    const midY = (a.y + b.y) / 2;
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', midX + '%');
+    text.setAttribute('y', midY + '%');
+    text.setAttribute('class', 'map-path-label');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dy', '-6');
+    text.textContent = route.name;
+    svg.appendChild(text);
+  }
 }
 
 document.getElementById('mapTravelBtn').addEventListener('click', () => {

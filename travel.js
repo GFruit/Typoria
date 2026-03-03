@@ -240,9 +240,6 @@ function arriveAtDestination() {
 
   const toast = document.getElementById('achievementToast');
   if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
-    arriving = false;
-    transitioning = false;
-    typingInput.disabled = false;
     setTimeout(arriveAtDestination, 100);
     return;
   }
@@ -296,6 +293,7 @@ function arriveAtDestination() {
     typingInput.disabled = false;
     typingInput.focus();
     document.getElementById("nextBtn").style.pointerEvents = '';
+    transitioning = false;
     console.log(destId);
     checkTravelAchievements(destId); //e.g. Travel to Mine, Travel to Campsite, etc.
   }, 3000);

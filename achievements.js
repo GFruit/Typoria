@@ -53,7 +53,6 @@ const itemCounters = JSON.parse(localStorage.getItem('typoria_itemCounters')) ||
 // Used for Item Count Achievements
 function trackGlobalItemCounts(id, qty) {
   itemCounters[id] = (itemCounters[id] || 0) + qty;
-    console.log(itemCounters[id])
   if (id === "logs" && itemCounters[id] >= 10) {
     unlockAchievement("Chop 10 logs!");
   }
@@ -105,6 +104,12 @@ function checkTravelAchievements(locationId) {
   if (locationId === 'mine') unlockAchievement('Visit the Mine!');
   if (locationId === 'lake') unlockAchievement('Visit the Lake!');
   if (locationId === 'campsite') unlockAchievement('Visit the Campsite!');
+  if (unlockedAchievements['Visit the Mine!'] &&
+    unlockedAchievements['Visit the Lake!'] &&
+    unlockedAchievements['Visit the Campsite!']
+  ) {
+    unlockAchievement('Discover all locations!')
+  }
 }
 
 function checkWpmAchievements(wpm) {

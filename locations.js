@@ -29,19 +29,19 @@ const LOCATIONS = {
     name: 'Campsite',
     icon: '🔥',
     scene: 'cooking',
-    x: 50,
-    y: 72,
+    x: 55,  //higher number = move right
+    y: 90, //higher number = move down
   },
 };
 
 
 const ROUTES = [
-  { from: 'forest', to: 'mine',  quotes: 1, name: 'Mountain Path' },
-  { from: 'forest', to: 'lake',  quotes: 1, name: 'Lakeside Trail' },
-  { from: 'mine',   to: 'lake',  quotes: 1, name: 'Rocky Descent'  },
-    { from: 'forest',   to: 'campsite', quotes: 1, name: 'Forest Path'    },
-  { from: 'lake',     to: 'campsite', quotes: 1, name: 'Lakeshore Walk' },
-  { from: 'mine',     to: 'campsite', quotes: 1, name: 'Miners Trail'   },
+  { from: 'forest', to: 'mine',  quotes: 1, name: '' },
+  { from: 'forest', to: 'lake',  quotes: 1, name: '' },
+  { from: 'mine',   to: 'lake',  quotes: 1, name: ''  },
+    { from: 'forest',   to: 'campsite', quotes: 1, name: ''    },
+  { from: 'lake',     to: 'campsite', quotes: 1, name: '' },
+  { from: 'mine',     to: 'campsite', quotes: 1, name: ''   },
 ];
 
 function getRoute(a, b) {

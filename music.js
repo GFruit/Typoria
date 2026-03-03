@@ -111,12 +111,24 @@ function toggleMusic() {
   }
 }
 
+function toggleSfx() {
+  _sfxEnabled = !_sfxEnabled;
+  localStorage.setItem('typoria_sfx', _sfxEnabled);
+  updateSfxBtn();
+}
+
 function updateMusicBtn() {
   const btn = document.getElementById('musicBtn');
   if (!btn) return;
-  btn.textContent = _musicEnabled ? '🔊' : '🔇';
-  btn.title       = _musicEnabled ? 'Mute music' : 'Play music';
+  btn.title = _musicEnabled ? 'Mute music' : 'Unmute music';
   btn.classList.toggle('muted', !_musicEnabled);
+}
+
+function updateSfxBtn() {
+  const btn = document.getElementById('sfxBtn');
+  if (!btn) return;
+  btn.title = _sfxEnabled ? 'Mute SFX' : 'Unmute SFX';
+  btn.classList.toggle('muted', !_sfxEnabled);
 }
 
 function tryStartMusic() {
@@ -132,4 +144,9 @@ updateMusicBtn();
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('musicBtn');
   if (btn) btn.addEventListener('click', toggleMusic);
+  const sfxBtn = document.getElementById('sfxBtn');
+  if (sfxBtn) sfxBtn.addEventListener('click', toggleSfx);
+
+  updateMusicBtn(); // ← already there
+  updateSfxBtn();   // ← add this
 });
