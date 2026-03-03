@@ -235,14 +235,28 @@ function exitTravelMode() {
 function arriveAtDestination() {
   if (arriving) return;
   if (!travelDest || !LOCATIONS[travelDest]) return;
-  arriving = true;
+
   typingInput.disabled = true;
 
-  const toast = document.getElementById('achievementToast');
-  if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
+  // Only wait for the currently showing toast, not the whole queue
+  if (achievementToastActive) {
     setTimeout(arriveAtDestination, 100);
     return;
   }
+
+  // Pause queue so no new toasts fire during transition
+  achievementQueuePaused = true;
+  
+  
+  /*
+  const toast = document.getElementById('achievementToast');
+  if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
+    console.log(`achievementToastActive ${achievementToastActive}`);
+    setTimeout(arriveAtDestination, 100);
+    return;
+  }*/
+
+  arriving = true;
 
   const destId = travelDest;
 
@@ -295,6 +309,8 @@ function arriveAtDestination() {
     document.getElementById("nextBtn").style.pointerEvents = '';
     transitioning = false;
     console.log(destId);
+    achievementQueuePaused = false;
+    if (achievementQueue.length > 0) processAchievementQueue();
     checkTravelAchievements(destId); //e.g. Travel to Mine, Travel to Campsite, etc.
   }, 3000);
 }

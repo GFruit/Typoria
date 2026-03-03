@@ -4,15 +4,15 @@ const FLINT_MAX_USES = 50;
 
 const SLOT_VALID_ITEMS = {
   flint: ['flint'],
-  logs:  ['logs', 'oak_logs'],
-  food:  ['shrimp', 'trout', 'salmon'],
+  logs:  ITEM_REGISTRY.filter(i => i.skill === 'woodcutting').map(i => i.id),
+  food:  ITEM_REGISTRY.filter(i => i.skill === 'fishing').map(i => i.id),
 };
 
-const COOK_MAP = {
-  shrimp: 'cooked_shrimp',
-  trout:  'cooked_trout',
-  salmon: 'cooked_salmon',
-};
+const COOK_MAP = Object.fromEntries(
+  ITEM_REGISTRY
+    .filter(i => i.cookedVersion)
+    .map(i => [i.id, i.cookedVersion])
+);
 
 
 // Helper to set a slot icon — handles both emoji and url() image paths
@@ -192,6 +192,8 @@ function openSlotPicker(slotId) {
   validIds.forEach(itemId => {
     const item = getItem(itemId);
     const qty  = getItemQty(itemId);
+    console.log(itemId, item, qty); // add this
+
     if (!item || qty <= 0) return;
     hasAny = true;
 

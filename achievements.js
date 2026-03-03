@@ -10,6 +10,7 @@ const unlockedAchievements = JSON.parse(localStorage.getItem('typoria_achievemen
 
 const achievementQueue = [];
 let achievementToastActive = false;
+let achievementQueuePaused = false;
 
 function unlockAchievement(id) {
   if (unlockedAchievements[id]) return;
@@ -22,6 +23,8 @@ function unlockAchievement(id) {
 }
 
 function processAchievementQueue() {
+  if (achievementQueuePaused) return;
+
   if (achievementQueue.length === 0) {
     achievementToastActive = false;
     return;
@@ -44,6 +47,7 @@ function processAchievementQueue() {
   // Show for 5s, fade out, wait 2s, then show next
   setTimeout(() => {
     toast.classList.remove('show');
+    achievementToastActive = false;
     setTimeout(processAchievementQueue, 2000);
   }, 5000);
 }
