@@ -107,14 +107,14 @@ const ITEM_REGISTRY = [
   },
   {
     id: 'obsidian_shards', name: 'Obsidian', icon: '', category: 'Mining', skill: 'mining',
-    xp: 600, sound: 'assets/sfx/mine.mp3', image: 'assets/img/obsidian_shards.png',
+    xp: 600, sound: 'assets/sfx/mine.mp3', image: 'assets/img/obsidian.png',
     drops: [
       { minLevel: 80, chance: 0.06 },
     ],
   },
   {
     id: 'meteorite_ore', name: 'Meteorite', icon: '', category: 'Mining', skill: 'mining',
-    xp: 1300, sound: 'assets/sfx/mine.mp3', image: 'assets/img/meteorite_ore.png',
+    xp: 1300, sound: 'assets/sfx/mine.mp3', image: 'assets/img/meteorite.png',
     drops: [
       { minLevel: 95, chance: 0.04 },
     ],
