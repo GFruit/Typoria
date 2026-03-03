@@ -32,7 +32,6 @@ function setSlotIcon(el, item) {
 
 // Fireplace state (persisted)
 let fireplaceState = JSON.parse(localStorage.getItem('typoria_fireplace') || 'null') || {
-  flintTotalUses:    0,
   flintEquipped:     false,
   logCount:          0,
   logBurnRemaining:  0,  // words remaining before current log is consumed
@@ -61,9 +60,8 @@ function saveCookingState() {
 function isFire() {
   return (
     fireplaceState.flintEquipped &&
-    fireplaceState.flintTotalUses > 0 &&
-    fireplaceState.logCount > 0
-  );
+    getItemQty('flint') > 0 &&
+    fireplaceState.logCount > 0 || fireplaceState.logBurnRemaining > 0);
 }
 
 // Call when arriving at campsite — resets session
@@ -74,6 +72,7 @@ function startCookingSession() {
 
 // Call when leaving campsite
 function endCookingSession() {
+  fireplaceState.flintEquipped = false;
   fireplaceState.logCount         = 0;
   fireplaceState.logBurnRemaining = 0;
   fireplaceState.logItemId        = null;
@@ -92,16 +91,12 @@ function updateFireplaceUI() {
   const toolCount   = document.getElementById('toolSlotCount');
   const toolBarFill = document.getElementById('toolSlotBarFill');
   if (toolContent) {
-    const total = fireplaceState.flintTotalUses;
-    if (fireplaceState.flintEquipped && total > 0) {
-      const flintCount  = Math.ceil(total / FLINT_MAX_USES);
-      const currentUses = total % FLINT_MAX_USES || FLINT_MAX_USES;
-      const pct         = (currentUses / FLINT_MAX_USES) * 100;
-
+    const qty = getItemQty('flint');
+    if (fireplaceState.flintEquipped && qty > 0) {
+      const pct = getDurabilityPct('flint');
       setSlotIcon(toolContent, getItem('flint'));
-      toolCount.textContent = `×${flintCount}`;
+      toolCount.textContent = `×${qty}`;
       if (toolBarFill) toolBarFill.style.width = pct + '%';
-
     } else {
       setSlotIcon(toolContent, null);
       toolCount.textContent = '';
@@ -192,7 +187,6 @@ function openSlotPicker(slotId) {
   validIds.forEach(itemId => {
     const item = getItem(itemId);
     const qty  = getItemQty(itemId);
-    console.log(itemId, item, qty); // add this
 
     if (!item || qty <= 0) return;
     hasAny = true;
@@ -228,9 +222,6 @@ function placeItemInSlot(slotId, itemId) {
   if (qty <= 0) return;
 
   if (slotId === 'flint') {
-    if (fireplaceState.flintTotalUses <= 0) {
-      fireplaceState.flintTotalUses = getItemQty('flint') * FLINT_MAX_USES;
-    }
     fireplaceState.flintEquipped = true;
   } else if (slotId === 'logs') {
     const logItem2 = getItem(itemId);
@@ -279,7 +270,7 @@ function onCookingWord(hadError, targetWord, mult) {
       }
     }
 
-    fireplaceState.flintTotalUses--;
+    useDurability('flint');
     if (fireplaceState.flintTotalUses % FLINT_MAX_USES === 0) {
       // One flint used up — decrement inventory
       inventoryData['flint'] = Math.max(0, (inventoryData['flint'] || 0) - 1);

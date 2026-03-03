@@ -5,6 +5,8 @@ let travelStepsDone     = parseInt(localStorage.getItem('typoria_travel_steps') 
 let travelStepsRequired = parseInt(localStorage.getItem('typoria_travel_req')   || '0');
 let travelStoryIndex    = parseInt(localStorage.getItem('typoria_story_idx')    || '0');
 
+
+
 let gameMode = travelDest ? 'travel' : 'skill';
 
 if (!travelDest && LOCATIONS[currentLocation]) {
@@ -17,6 +19,8 @@ let currentScene = LOCATIONS[currentLocation]
   : (localStorage.getItem('typoria_scene') || 'woodcutting');
 
 let xp = 0;
+
+
 
 // --- Inventory ---
 // Single shared inventory object across all scenes
@@ -42,6 +46,36 @@ function loadInventory() {
 
 function saveInventory() {
   localStorage.setItem('typoria_inventory', JSON.stringify(inventoryData));
+}
+
+// Durability State //
+
+let durabilityState = JSON.parse(localStorage.getItem('typoria_durability') || '{}');
+
+function saveDurability() {
+  localStorage.setItem('typoria_durability', JSON.stringify(durabilityState));
+}
+
+function useDurability(id) {
+  const item = getItem(id);
+  if (!item || !item.maxDurability) return;
+  if (!durabilityState[id] || durabilityState[id] <= 0) {
+    durabilityState[id] = item.maxDurability;
+  }
+  durabilityState[id]--;
+  if (durabilityState[id] <= 0) {
+    inventoryData[id] = Math.max(0, (inventoryData[id] || 0) - 1);
+    durabilityState[id] = inventoryData[id] > 0 ? item.maxDurability : 0;
+    saveInventory();
+  }
+  saveDurability();
+}
+
+function getDurabilityPct(id) {
+  const item = getItem(id);
+  if (!item || !item.maxDurability) return 100;
+  if (!durabilityState[id]) return 100;
+  return (durabilityState[id] / item.maxDurability) * 100;
 }
 
 function awardItem(id, qty = 1) {

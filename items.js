@@ -57,7 +57,7 @@ const ITEM_REGISTRY = [
   },
   {
     id: 'flint', name: 'Flint', icon: '', category: 'Mining', skill: 'mining',
-    xp: 15, sound: 'assets/sfx/mine.mp3', image: "assets/img/flint.png",
+    xp: 15, maxDurability: 50, sound: 'assets/sfx/mine.mp3', image: "assets/img/flint.png",
     drops: [
       { minLevel: 1,  chance: 0.03 },
       { minLevel: 25, chance: 0.08 },
