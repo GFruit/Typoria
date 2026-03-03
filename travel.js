@@ -246,15 +246,6 @@ function arriveAtDestination() {
 
   // Pause queue so no new toasts fire during transition
   achievementQueuePaused = true;
-  
-  
-  /*
-  const toast = document.getElementById('achievementToast');
-  if (achievementToastActive || achievementQueue.length > 0 || toast.classList.contains('show')) {
-    console.log(`achievementToastActive ${achievementToastActive}`);
-    setTimeout(arriveAtDestination, 100);
-    return;
-  }*/
 
   arriving = true;
 
@@ -308,7 +299,6 @@ function arriveAtDestination() {
     typingInput.focus();
     document.getElementById("nextBtn").style.pointerEvents = '';
     transitioning = false;
-    console.log(destId);
     achievementQueuePaused = false;
     if (achievementQueue.length > 0) processAchievementQueue();
     checkTravelAchievements(destId); //e.g. Travel to Mine, Travel to Campsite, etc.

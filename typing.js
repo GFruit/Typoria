@@ -191,7 +191,6 @@ function submitWord(targetWord) {
 
   } else if (currentScene === 'cooking') {
     // --- Cooking mode ---
-    console.log('[TYPING] calling onCookingWord, typeof:', typeof onCookingWord);
     onCookingWord(hadError, targetWord, mult);
     
   } else {
