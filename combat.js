@@ -5,33 +5,7 @@
 // dmgMin/Max : damage range per hit
 // accuracy   : 0–1 chance the attack lands
 
-const ENEMIES = [
-  { id: 'skeleton', name: 'Skeleton', hp: 50,  xp: 5,  img: 'assets/img/skeleton.png',
-    attackRate: 3, dmgMin: 3,  dmgMax: 8,  accuracy: 0.6,
-    drops: [
-      { itemId: 'silver_coin', chance: 1 },
-    ]
-  },
-  { id: 'goblin', name: 'Goblin', hp: 50, xp: 10, img: 'assets/img/goblin.png',
-    attackRate: 2, dmgMin: 5,  dmgMax: 6, accuracy: 0.7,
-    drops: [
-      { itemId: 'silver_coin', chance: 1 },
-    ]
-  },
-  { id: 'orc', name: 'Orc', hp: 50, xp: 20, img: 'assets/img/orc.png',
-    attackRate: 4, dmgMin: 1, dmgMax: 1, accuracy: 0.75,
-    drops: [
-      { itemId: 'silver_coin', chance: 1.0 },
-    ]
-  },
-  { id: 'dragon', name: 'Dragon', hp: 50, xp: 60, img: 'assets/img/dragon.png',
-    attackRate: 2, dmgMin: 1, dmgMax: 2, accuracy: 0.8,
-    drops: [
-      { itemId: 'gold_coin', chance: 1.0 },
-    ]
-  },
-];
-/*
+
 const ENEMIES = [
   { id: 'skeleton', name: 'Skeleton', hp: 80,  xp: 5,  img: 'assets/img/skeleton.png',
     attackRate: 3, dmgMin: 3,  dmgMax: 8,  accuracy: 0.6,
@@ -57,7 +31,7 @@ const ENEMIES = [
       { itemId: 'gold_coin', chance: 1.0 },
     ]
   },
-];*/
+];
 
 
 // --- State ---
