@@ -192,7 +192,12 @@ function submitWord(targetWord) {
   } else if (currentScene === 'cooking') {
     // --- Cooking mode ---
     onCookingWord(hadError, targetWord, mult);
-    
+  } else if (currentScene === 'combat') {
+    if (isEatingMode) {
+    onEatingWord(hadError);
+  } else {
+    onCombatWord(hadError, targetWord, mult);
+  }
   } else {
 
 

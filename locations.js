@@ -15,6 +15,7 @@ const LOCATIONS = {
     scene: 'mining',
     x: 74,
     y: 35,
+    achievement: "Visit the Mine!"
   },
   lake: {
     id:    'lake',
@@ -23,6 +24,7 @@ const LOCATIONS = {
     scene: 'fishing',
     x: 18,
     y: 20,
+    achievement: "Visit the Lake!"
   },
   campsite: {
     id: 'campsite',
@@ -31,7 +33,17 @@ const LOCATIONS = {
     scene: 'cooking',
     x: 55,  //higher number = move right
     y: 90, //higher number = move down
+    achievement: "Visit the Campsite!"
   },
+  dungeon:  {
+    id: 'dungeon',
+    name: 'The Dungeon',
+    icon: '💀',
+    scene: 'combat',
+    x: 48,
+    y: 20,
+    achievement: "Enter the Dungeon!"
+  }
 };
 
 
@@ -42,6 +54,10 @@ const ROUTES = [
     { from: 'forest',   to: 'campsite', quotes: 1, name: ''    },
   { from: 'lake',     to: 'campsite', quotes: 1, name: '' },
   { from: 'mine',     to: 'campsite', quotes: 1, name: ''   },
+    { from: 'mine',     to: 'dungeon',  quotes: 1, name: '' },
+  { from: 'campsite', to: 'dungeon',  quotes: 1, name: '' },
+  { from: 'lake',     to: 'dungeon',  quotes: 1, name: '' },
+  { from: 'forest', to: 'dungeon',  quotes: 1, name: '' },
 ];
 
 function getRoute(a, b) {

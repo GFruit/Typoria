@@ -76,7 +76,6 @@ document.getElementById('inventoryBtn').addEventListener('click', openInventory)
 function updateLastDropDisplay(droppedIds) {
   const el = document.getElementById('lastDropIcons');
   if (!droppedIds || droppedIds.length === 0) {
-    el.textContent = '—';
     return;
   }
   el.innerHTML = '';

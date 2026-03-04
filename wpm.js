@@ -83,6 +83,7 @@ function wpmOnQuoteComplete() {
   _wpmScores[_quoteText] = {
     pb:     isPB ? wpm : (prevPB ?? wpm),
     recent: newRecent,
+    count:  (prev?.count || 0) + 1,
   };
   localStorage.setItem('typoria_wpm_scores', JSON.stringify(_wpmScores));
 
@@ -99,10 +100,10 @@ function showWpmDisplay(wpm, { isFirst, isPB, isAboveAvg, prevPB, prevAvg, newAv
   label.innerHTML = '';
 
   if (isFirst) {
-    const sceneQuotes = gameMode !== 'travel' ? getScene().quotes() : [];
+    const sceneQuotes = getScene().quotes();
     const total = sceneQuotes.length;
     const found = sceneQuotes.filter(q => _wpmScores[q]).length;
-    label.innerHTML = `<span class="wpm-new">New Quote!${gameMode !== 'travel' ? ` (${found} / ${total} Found)` : ''}</span>`;
+    label.innerHTML = `<span class="wpm-new">New Quote! (${found} / ${total} Found)</span>`;
   } else if (isPB) {
     const diff = wpm - prevPB;
     label.innerHTML = `<span class="wpm-pb">Personal Best! +${diff}</span>`;

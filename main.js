@@ -18,7 +18,6 @@ function rebuildQuotePool() {
 let _lastQuote = null;
 
 function getNextQuote() {
-  if (gameMode === 'travel') return getNextTravelQuote();
   const pool = getScene().quotes();
   let quote;
   do {
@@ -35,6 +34,12 @@ document.addEventListener("keydown", (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
     e.preventDefault();
     if (typingInput.value.length > 0) applySelection();
+    return;
+  }
+
+  if (e.key === 'Tab' && currentScene === 'combat' && gameMode !== 'travel') {
+    e.preventDefault();
+    toggleEatingMode();
     return;
   }
 
@@ -66,7 +71,7 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  if (!typingInput.disabled) typingInput.focus();
+  if (!typingInput.disabled && document.activeElement !== document.getElementById('chroniclesSearch') && !document.getElementById('chroniclesModal').classList.contains('open')) typingInput.focus();
 });
 
 document.addEventListener("click", () => {
@@ -83,10 +88,6 @@ nextBtn.addEventListener("click", () => {
   typingInput.focus();
 });
 
-// --- Init ---
-/*
-rebuildQuotePool();
-*/
 
 if (gameMode === 'travel') {
   agilityLastLevel = getLevelInfo(agilityXp).level;

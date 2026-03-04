@@ -4,6 +4,7 @@ const SCENE_BACKGROUNDS = {
   fishing:     "url('assets/img/plank.png')",
   cooking:     "url('assets/img/dirt.jpg')",
   travel:      "url('assets/img/path.png')",
+  combat:      "url('assets/img/dungeon-sidebar.png')",
 };
 
 const unlockedAchievements = JSON.parse(localStorage.getItem('typoria_achievements')) || {};
@@ -105,14 +106,13 @@ function checkLevelAchievements(skill, level) {
 }
 
 function checkTravelAchievements(locationId) {
-  if (locationId === 'mine') unlockAchievement('Visit the Mine!');
-  if (locationId === 'lake') unlockAchievement('Visit the Lake!');
-  if (locationId === 'campsite') unlockAchievement('Visit the Campsite!');
-  if (unlockedAchievements['Visit the Mine!'] &&
-    unlockedAchievements['Visit the Lake!'] &&
-    unlockedAchievements['Visit the Campsite!']
-  ) {
-    unlockAchievement('Discover all locations!')
+  const loc = LOCATIONS[locationId];
+  if (loc?.achievement) unlockAchievement(loc.achievement);
+
+  // Check if all locations with achievements have been visited
+  const all = Object.values(LOCATIONS).filter(l => l.achievement);
+  if (all.every(l => unlockedAchievements[l.achievement])) {
+    unlockAchievement('Discover all locations!');
   }
 }
 

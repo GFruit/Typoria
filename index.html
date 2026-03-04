@@ -10,11 +10,26 @@
     <button id="musicBtn" title="Mute music">🎵</button>
     <button id="sfxBtn" title="Mute SFX">🔊</button>
   </div>
+  
   <div id="toolSlot" class="cooking-only" style="display:none" title="Equip flint">
     <div id="toolSlotContent">+</div>
     <div id="toolSlotCount"></div>
     <div id="toolSlotBar"><div id="toolSlotBarFill"></div></div>
   </div>
+  <div id="combatFoodSlot" class="combat-only" title="Food (auto-eat below 40% HP)">
+    <div id="combatFoodIcon">+</div>
+    <div id="combatFoodCount"></div>
+  </div>
+  <div id="eatingModeLabel" class="combat-only">Tab: Eating</div>
+  <button id="mapBtn" title="World Map">
+    <img src="assets/img/world_map_icon.png" alt="Map" class="hud-btn-img">
+  </button>
+
+  <button id="inventoryBtn" title="Inventory">
+    <img src="assets/img/inventory_icon.png" alt="Inventory" class="hud-btn-img">
+  </button>
+
+  
 
   <div id="main">
     <h1>Typoria</h1>
@@ -36,7 +51,20 @@
         <div id="travelProgressFill"></div>
       </div>
     </div>
-
+    <div id="combatHud" class="combat-only">
+      <div id="combatHudPlayer">
+        <span class="combatHudLabel">Player</span>
+        <div id="combatHudPlayerTrack">
+          <div id="combatHudPlayerBar"></div>
+        </div>
+      </div>
+      <div id="combatHudEnemy">
+        <div id="combatHudEnemyTrack">
+          <div id="combatHudEnemyBar"></div>
+        </div>
+        <span class="combatHudLabel enemy">Enemy</span>
+      </div>
+    </div>
     <div id="quoteDisplay">
       <div id="quoteInner"></div>
     </div>
@@ -49,12 +77,6 @@
 
   <!-- Sidebar -->
   <div id="sidebar">
-
-    <div id="mapBtnWrap">
-      <button id="mapBtn">🗺 World Map</button>
-    </div>
-
-    <div class="side-divider"></div>
 
     <!-- SKILL MODE -->
     <div class="side-section skill-only">
@@ -76,9 +98,55 @@
     <div class="side-divider skill-only"></div>
     <div class="side-section skill-only hide-cooking">
   <div class="side-label">Last Drop</div>
-  <div id="lastDropIcons">—</div>
+  <div id="lastDropIcons"></div>
 </div>
 <div class="side-divider skill-only hide-cooking"></div>
+
+<!-- ENEMY (combat scene only) -->
+<div class="side-section combat-only">
+  <div id="combatDisplay">
+
+    <!-- Player -->
+    <div id="playerCombat">
+      <div id="playerHpBarWrap">
+        <div id="playerHpBar"></div>
+      </div>
+      <div id="playerHpText">
+        <span id="playerHpCurrent">100</span>
+        <span>/</span>
+        <span id="playerHpMax">100</span>
+        <span class="enemy-hp-unit">HP</span>
+      </div>
+      <div id="playerImgWrap">
+        <img id="playerImg" src="assets/img/player.png" alt="Player" />
+      </div>
+    </div>
+
+    <!-- Enemy -->
+    <div id="enemyCombat">
+      <div id="enemyHpBarWrap">
+        <div id="enemyHpBar"></div>
+      </div>
+      <div id="enemyHpText">
+        <span id="enemyHpCurrent">80</span>
+        <span>/</span>
+        <span id="enemyHpMax">80</span>
+        <span class="enemy-hp-unit">HP</span>
+      </div>
+      <div id="enemyImgWrap">
+        <img id="enemyImg" src="assets/img/skeleton.png" alt="Enemy" />
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="side-divider combat-only"></div>
+
+<div class="side-section combat-only">
+  <div class="side-label">Loot</div>
+  <div id="combatLootGrid"></div>
+</div>
+<div class="side-divider combat-only"></div>
 
     <!-- TRAVEL MODE -->
     <div class="side-section travel-only">
@@ -126,6 +194,8 @@
       </div>
     </div>
     <div class="side-divider cooking-only" style="display:none"></div>
+    
+    
     <!-- SHARED -->
     <div class="side-divider"></div>
     <div class="side-section">
@@ -138,11 +208,13 @@
       <div id="streakTop" class="streak-top">Top: 0</div>
     </div>
 
-    <div id="bottomBtnWrap">
-      <button id="inventoryBtn">🎒 Inventory</button>
-    </div>
-
+    <div style="flex:1"></div>
+    <button id="chroniclesBtn" title="Chronicles">
+      <img src="assets/img/chronicles_icon.png" alt="Chronicles" class="hud-btn-img">
+    </button>
   </div>
+
+  
 
 
   <!-- Arrival banner -->
@@ -195,7 +267,36 @@
     </div>
   </div>
 
-  
+  <!-- Chronicles Modal -->
+  <div id="chroniclesModal">
+    <div id="chroniclesContent">
+      <div id="chroniclesHeader">
+        <div id="chroniclesTitle">
+          <span id="chroniclesTitleIcon">📖</span>
+          <span>Chronicles</span>
+        </div>
+        <input id="chroniclesSearch" type="text" placeholder="Search discovered quotes…" autocomplete="off" spellcheck="false">
+        <button id="chroniclesCloseBtn">✕</button>
+      </div>
+      <div id="chroniclesBody-wrap">
+        <div id="chroniclesTabs"></div>
+        <div id="chroniclesTableWrap">
+          <div id="chroniclesCount"></div>
+          <table id="chroniclesTable">
+            <thead>
+              <tr>
+                <th class="chron-th chron-th-quote" data-col="quote">Quote</th>
+                <th class="chron-th" data-col="attempts">Attempts ↕</th>
+                <th class="chron-th" data-col="avgWpm">Avg WPM ↕</th>
+                <th class="chron-th" data-col="pb">PB ↕</th>
+              </tr>
+            </thead>
+            <tbody id="chroniclesBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
@@ -203,6 +304,8 @@
   <script src="mining_quotes.js"></script>
   <script src="fishing_quotes.js"></script>
   <script src="cooking_quotes.js"></script>
+  <script src="combat_quotes.js"></script>
+  <script src="travel_quotes.js"></script>
   <script src="locations.js"></script>
   <script src="items.js"></script>
   <script src="sounds.js"></script>
@@ -217,7 +320,9 @@
   <script src="cooking.js"></script>
   <script src="wpm.js"></script>
   <script src="music.js"></script>
+  <script src="combat.js"></script>
   <script src="main.js"></script>
   <script src="achievements.js"></script>
+  <script src="chronicles.js"></script>
 </body>
 </html>

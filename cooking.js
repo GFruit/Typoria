@@ -121,6 +121,7 @@ function updateFireplaceUI() {
       if (isMulti && fireplaceState.logBurnRemaining > 0) {
         const pct = (fireplaceState.logBurnRemaining / burnDur) * 100;
         if (logsBar)    logsBar.style.visibility    = 'visible';
+        if (logsBarFill) logsBarFill.style.display   = '';
         if (logsBarFill) logsBarFill.style.width = pct + '%';
       } else {
         if (logsBar)    logsBar.style.visibility    = 'hidden';

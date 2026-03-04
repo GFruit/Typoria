@@ -4,7 +4,7 @@ const ITEM_REGISTRY = [
   {
     id: 'pine_logs', name: 'Pine Logs', icon: '🪵', category: 'Woodcutting', skill: 'woodcutting',
     xp: 12, burnDuration: 1, sound: 'assets/sfx/chop.m4a', image: 'assets/img/pine_logs.png', volume: 0.4,
-    drops: [{ minLevel: 1, chance: 0.45 }],
+    drops: [{ minLevel: 1, chance: 0.45 }]
   },
   {
     id: 'birch_logs', name: 'Birch Logs', icon: '🌳', category: 'Woodcutting', skill: 'woodcutting',
@@ -171,48 +171,52 @@ const ITEM_REGISTRY = [
   {
     id: 'cooked_shrimp', name: 'Cooked Shrimp', icon: '🦐', category: 'Cooking', skill: 'cooking',
     xp: 10, sound: 'assets/sfx/cook.mp3', image: 'assets/img/shrimp_cooked.png',
-    drops: [{ minLevel: 1, chance: 0.40 }],
+    drops: [{ minLevel: 1, chance: 0.40 }], healAmount: 10,
   },
   {
     id: 'cooked_sardine', name: 'Cooked Sardine', icon: '🍤', category: 'Cooking', skill: 'cooking',
     xp: 10, sound: 'assets/sfx/cook.mp3', image: 'assets/img/sardine_cooked.png',
-    drops: [{ minLevel: 1, chance: 0.20 }],
+    drops: [{ minLevel: 1, chance: 0.20 }], healAmount: 14,
   },
   {
     id: 'cooked_trout', name: 'Cooked Trout', icon: '🐟', category: 'Cooking', skill: 'cooking',
     xp: 35, sound: 'assets/sfx/cook.mp3', image: 'assets/img/trout_cooked.png',
     drops: [
       { minLevel: 25, chance: 0.15 },
-    ],
+    ], healAmount: 20,
   },
   {
     id: 'cooked_salmon', name: 'Cooked Salmon', icon: '🐡', category: 'Cooking', skill: 'cooking',
     xp: 120, sound: 'assets/sfx/cook.mp3', image: 'assets/img/salmon_cooked.png',
     drops: [
       { minLevel: 40, chance: 0.12 }
-    ],
+    ], healAmount: 28,
   },
   {
     id: 'cooked_tuna', name: 'Cooked Tuna', icon: '🍣', category: 'Cooking', skill: 'cooking',
     xp: 300, sound: 'assets/sfx/cook.mp3', image: 'assets/img/tuna_cooked.png',
     drops: [
       { minLevel: 55, chance: 0.08 }
-    ],
+    ], healAmount: 38,
   },
   {
     id: 'cooked_lobster', name: 'Cooked Lobster', icon: '🦞', category: 'Cooking', skill: 'cooking',
     xp: 450, sound: 'assets/sfx/cook.mp3', image: 'assets/img/lobster_cooked.png',
     drops: [
       { minLevel: 70, chance: 0.05 }
-    ],
+    ], healAmount: 50,
   },
   {
     id: 'cooked_shark', name: 'Cooked Shark', icon: '🦈', category: 'Cooking', skill: 'cooking',
     xp: 650, sound: 'assets/sfx/cook.mp3', image: 'assets/img/shark_cooked.png',
     drops: [
       { minLevel: 90, chance: 0.03 }
-    ],
+    ], healAmount: 70,
   },
+  // === COMBAT ===
+  { id: 'silver_coin', name: 'Silver Coin', icon: '', category: 'Combat', xp: 0, image: 'assets/img/silver_coin.png' },
+  { id: 'gold_coin', name: 'Gold Coin', icon: '🪙', category: 'Combat', xp: 0, image: 'assets/img/gold_coin.png'},
+  
 ]
 
 function getItem(id) {

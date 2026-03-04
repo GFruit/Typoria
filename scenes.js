@@ -32,6 +32,22 @@ const SCENES = {
     bodyClass: 'scene-cooking',
     quotes:    () => cookingQuotes,
   },
+  combat: {
+    id:        'combat',
+    name:      'Combat',
+    skill:     'combat',
+    skillIcon: '⚔️',
+    bodyClass: 'scene-combat',
+    quotes:    () => combatQuotes,
+  },
+  travel: {
+  id:        'travel',
+  name:      'Travel',
+  skill:     'agility',
+  skillIcon: '🏃',
+  bodyClass: 'mode-travel',
+  quotes:    () => travelQuotes,
+},
 };
 
 function getScene() {
@@ -56,13 +72,17 @@ function updateSceneUI() {
   }
 
   const scene = getScene();
+
+  if (scene.id !== 'combat') stopEnemyAttackTimer();
+  if (scene.id === 'combat') initCombat();
+
   const isCooking = scene.id === 'cooking';
 
   document.body.className = 'mode-skill ' + scene.bodyClass;
   document.getElementById('wcIcon').textContent     = scene.skillIcon;
   document.getElementById('skillLabel').textContent = scene.name;
   xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
-  document.getElementById('lastDropIcons').textContent = '—';
+  document.getElementById('lastDropIcons').textContent = '';
 
   _setCookingVisible(isCooking);
   if (isCooking) updateFireplaceUI();
