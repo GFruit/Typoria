@@ -10,6 +10,8 @@ let wordElements  = [];
 let spaceElements = [];
 const caretEl = document.createElement("caret");
 
+let quoteStreak = parseInt(localStorage.getItem('typoria_quote_streak') || '0');
+
 // --- Selection ---
 let selectionActive = false;
 
@@ -240,7 +242,13 @@ function submitWord(targetWord) {
     nextBtn.classList.add('glow');
     if (gameMode !== 'travel') {
       wpmOnQuoteComplete();
-      checkAccuracyAchievements(wordErrorCount);
+      if (wordErrorCount === 0) {
+        quoteStreak++;
+      } else {
+        quoteStreak = 0;
+      }
+      localStorage.setItem('typoria_quote_streak', quoteStreak);
+      checkAccuracyAchievements(quoteStreak);
     }
   }
 

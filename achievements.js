@@ -75,9 +75,12 @@ function checkStreakAchievements(streak) {
     }
 }
 
-function checkAccuracyAchievements(wordErrorCount) {
-    if (wordErrorCount === 0) { // 0 errors after quote completed
+function checkAccuracyAchievements(quoteStreak) {
+    if (quoteStreak === 1) { // 0 errors after quote completed
         unlockAchievement("Type a quote without making a single mistake!");
+    }
+    if (quoteStreak === 3) {
+      unlockAchievement("Type 3 quotes in a row without making a single mistake!")
     }
 }
 
@@ -102,6 +105,11 @@ function checkLevelAchievements(skill, level) {
     if (level >= 10)  unlockAchievement('Reach Level 10 Cooking!');
     if (level >= 50)  unlockAchievement('Reach Level 50 Cooking!');
     if (level >= 99)  unlockAchievement('Reach Level 99 Cooking!');
+  }
+  if (skill === 'combat') {
+    if (level >= 10)  unlockAchievement('Reach Level 10 Combat!');
+    if (level >= 50)  unlockAchievement('Reach Level 50 Combat!');
+    if (level >= 99)  unlockAchievement('Reach Level 99 Combat!');
   }
 }
 

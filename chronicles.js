@@ -110,18 +110,17 @@ function _renderChroniclesTable(sceneId) {
     const tr = document.createElement('tr');
     tr.className = 'chron-row typed';
 
-    const PREVIEW = 42;
-    const shortened = row.quote.length > PREVIEW ? row.quote.slice(0, PREVIEW) + '…' : row.quote;
-
     tr.innerHTML = `
       <td class="chron-quote-cell">
-        <span class="chron-preview">${escapeHtml(shortened)}</span>
-        <span class="chron-full hidden">${escapeHtml(row.quote)}</span>
-        <span class="chron-expand-hint">click to expand</span>
+        <div class="chron-quote-inner">
+          <div class="chron-preview">${escapeHtml(row.quote)}</div>
+          <div class="chron-full hidden">${escapeHtml(row.quote)}</div>
+          <span class="chron-expand-hint">click to expand</span>
+        </div>
       </td>
-        <td class="chron-num">${row.attempts}</td>
-        <td class="chron-num chron-avg"><span class="chron-num-inner">${row.avgWpm > 0 ? row.avgWpm + '<span class="chron-unit">wpm</span>' : '—'}</span></td>
-        <td class="chron-num chron-pb-cell"><span class="chron-num-inner">${row.pb > 0 ? row.pb + '<span class="chron-unit">wpm</span>' : '—'}</span></td>
+      <td class="chron-num">${row.attempts}</td>
+      <td class="chron-num chron-avg"><span class="chron-num-inner">${row.avgWpm > 0 ? row.avgWpm + '<span class="chron-unit">wpm</span>' : '—'}</span></td>
+      <td class="chron-num chron-pb-cell"><span class="chron-num-inner">${row.pb > 0 ? row.pb + '<span class="chron-unit">wpm</span>' : '—'}</span></td>
     `;
 
     tr.querySelector('.chron-quote-cell').addEventListener('click', () => {

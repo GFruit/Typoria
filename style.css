@@ -170,7 +170,7 @@ h1 {
   position: relative;
   line-height: 2.2;
   text-align: left;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 word      { display: inline-block; white-space: nowrap; }
@@ -1663,6 +1663,18 @@ body.mode-travel #travelProgressFill          { background: linear-gradient(to r
   font-size: 0.7rem;
   vertical-align: top;
   transition: background 0.15s;
+  text-align: center;
+}
+
+.chron-preview {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: #9399b2;
+  line-height: 1.5;
+  word-break: break-word;
+  height: 3rem;
 }
 
 .chron-row:hover td { background: rgba(255,255,255,0.03); }
@@ -1673,10 +1685,11 @@ body.mode-travel #travelProgressFill          { background: linear-gradient(to r
 .chron-quote-cell {
   cursor: pointer;
   position: relative;
+  text-align: left !important;
 }
 
 .chron-preview { color: #9399b2; line-height: 1.5; display: block; }
-.chron-full    { color: #cdd6f4; line-height: 1.6; display: block; font-size: 0.65rem; }
+.chron-full    { color: #cdd6f4; line-height: 1.5; display: block;}
 .hidden        { display: none !important; }
 
 .chron-expand-hint {
