@@ -10,25 +10,27 @@ const ENEMIES = [
   { id: 'skeleton', name: 'Skeleton', hp: 80,  xp: 5,  img: 'assets/img/skeleton.png',
     attackRate: 3, dmgMin: 3,  dmgMax: 8,  accuracy: 0.6,
     drops: [
-      { itemId: 'gold_coin', chance: 0.3 },
+      { itemId: 'silver_coin', chance: 0.3 },
     ]
   },
   { id: 'goblin', name: 'Goblin', hp: 130, xp: 10, img: 'assets/img/goblin.png',
-    attackRate: 2, dmgMin: 5,  dmgMax: 12, accuracy: 0.7,
+    attackRate: 3, dmgMin: 5,  dmgMax: 12, accuracy: 0.7,
     drops: [
-      { itemId: 'gold_coin', chance: 0.6 },
+      { itemId: 'silver_coin', chance: 0.5 },
     ]
   },
   { id: 'orc', name: 'Orc', hp: 220, xp: 20, img: 'assets/img/orc.png',
-    attackRate: 4, dmgMin: 10, dmgMax: 17, accuracy: 0.75,
+    attackRate: 3, dmgMin: 7, dmgMax: 15, accuracy: 0.75,
     drops: [
-      { itemId: 'gold_coin', chance: 0.8 },
+      { itemId: 'silver_coin', chance: 0.7 },
+      { itemId: 'gold_coin', chance: 0.2 },
     ]
   },
   { id: 'dragon', name: 'Dragon', hp: 500, xp: 60, img: 'assets/img/dragon.png',
-    attackRate: 2, dmgMin: 15, dmgMax: 25, accuracy: 0.8,
+    attackRate: 3, dmgMin: 10, dmgMax: 17, accuracy: 0.8,
     drops: [
-      { itemId: 'gold_coin', chance: 1.0 },
+      { itemId: 'silver_coin', chance: 1 },
+      { itemId: 'gold_coin', chance: 0.7 },
     ]
   },
 ];
