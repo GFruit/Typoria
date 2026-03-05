@@ -61,8 +61,8 @@ const itemCounters = JSON.parse(localStorage.getItem('typoria_itemCounters')) ||
 // Used for Item Count Achievements
 function trackGlobalItemCounts(id, qty) {
   itemCounters[id] = (itemCounters[id] || 0) + qty;
-  if (id === "logs" && itemCounters[id] >= 10) {
-    unlockAchievement("Chop 10 logs!");
+  if (id === "pine_logs" && itemCounters[id] >= 10) {
+    unlockAchievement("Chop 10 pine logs!");
   }
 
   localStorage.setItem('typoria_itemCounters', JSON.stringify(itemCounters));

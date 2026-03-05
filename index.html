@@ -209,9 +209,14 @@
     </div>
 
     <div style="flex:1"></div>
-    <button id="chroniclesBtn" title="Chronicles">
-      <img src="assets/img/chronicles_icon.png" alt="Chronicles" class="hud-btn-img">
-    </button>
+    <div id="sidebarBottomBtns">
+      <button id="achievementsBtn" title="Achievements">
+        <img src="assets/img/achievements_icon.png" alt="Achievements" class="hud-btn-img">
+      </button>
+      <button id="chroniclesBtn" title="Chronicles">
+        <img src="assets/img/chronicles_icon.png" alt="Chronicles" class="hud-btn-img">
+      </button>
+    </div>
   </div>
 
   
@@ -264,6 +269,33 @@
         <button id="slotPickerClose">✕</button>
       </div>
       <div id="slotPickerGrid"></div>
+    </div>
+  </div>
+
+  <!-- Achievements Modal -->
+  <div id="achievementsModal">
+    <div id="achievementsContent">
+
+      <div id="achievementsHeader">
+        <div id="achievementsTitle">
+          <img id="achievementsTitleIcon" src="assets/img/achievements_icon.png" alt="Achievements">
+          <span>Achievements</span>
+        </div>
+        <div id="achOverallProgress">
+          <span id="achOverallText">0 / 0 Achievements Unlocked</span>
+          <div id="achOverallBarWrap">
+            <div id="achOverallFill"></div>
+          </div>
+          <span id="achOverallPct">0%</span>
+        </div>
+        <button id="achievementsCloseBtn">✕</button>
+      </div>
+
+      <div id="achievementsBody-wrap">
+        <div id="achTabs"></div>
+        <div id="achContentWrap"></div>
+      </div>
+
     </div>
   </div>
 
@@ -323,6 +355,7 @@
   <script src="combat.js"></script>
   <script src="main.js"></script>
   <script src="achievements.js"></script>
+  <script src="achievements_modal.js"></script>
   <script src="chronicles.js"></script>
 </body>
 </html>
