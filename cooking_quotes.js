@@ -21,7 +21,6 @@ const cookingQuotes = [
   "The coals were better than the flame. Once the fire had burned down to a red, pulsing bed of charcoal, the real cooking could begin. Flame was for spectacle. Coals were for patience and for the deep, slow heat that turned raw things into something worth eating.",
   "They sat around the fire after eating, not talking much, watching it burn down. There was nothing that needed saying. The meal had been simple and had been enough. The fire was warm. The dark outside the circle of light was soft and full of small sounds. This, he thought, was as good as things got.",
   "Mise en place is the religion of the organized chef.",
-  "The sourdough starter bubbled with life, a fermented secret passed down through three generations.",
   "Warning: The bottom of the pan is extremely hot. Do not touch with bare hands.",
   "A pinch of saffron costs more than gold but tastes like a sunset caught in a cloud of rice.",
   "Tonight on Action News: Is your air fryer a fire hazard? We investigate at eleven.",
