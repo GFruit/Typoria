@@ -91,16 +91,11 @@
       </div>
     </div>
     <div class="side-divider skill-only"></div>
-    <div class="side-section skill-only">
-      <div class="side-label">Experience</div>
-      <div id="xpBar">0 <span class="side-unit">XP</span></div>
-    </div>
-    <div class="side-divider skill-only"></div>
-    <div class="side-section skill-only hide-cooking">
+    <div class="side-section skill-only hide-cooking hide-forge">
   <div class="side-label">Last Drop</div>
   <div id="lastDropIcons"></div>
 </div>
-<div class="side-divider skill-only hide-cooking"></div>
+<div class="side-divider skill-only hide-cooking hide-forge"></div>
 
 <!-- ENEMY (combat scene only) -->
 <div class="side-section combat-only">
@@ -195,6 +190,42 @@
     </div>
     <div class="side-divider cooking-only" style="display:none"></div>
     
+   <!-- FORGE (forge scene only) -->
+  <div class="side-section forge-only" style="display:none">
+    <div class="side-label forge-label-row">
+      <span style="display:flex;align-items:center;gap:0.3rem;">
+        Forge
+        <div id="forgeActiveIcon" class="forge-active-icon"></div>
+      </span>
+      <button id="forgeSelectBtn" class="forge-select-btn">Change</button>
+    </div>
+    <div class="forge-slots-row">
+      <!-- Fuel slot -->
+      <div class="fireplace-slot" id="forgeFuelEl" title="Add logs (fuel)">
+        <div class="slot-icon" id="forgeFuelContent">+</div>
+        <div class="slot-count" id="forgeFuelCount"></div>
+        <div class="slot-bar" id="forgeFuelBar" style="visibility:hidden">
+          <div class="slot-bar-fill" id="forgeFuelBarFill"></div>
+        </div>
+      </div>
+      <!-- Separator -->
+      <div class="forge-slot-sep"></div>
+      <!-- Ingredient icons -->
+      <div id="forgeIngIcons" class="forge-ing-icons"></div>
+      <!-- Arrow -->
+      <div class="forge-arrow-sm">→</div>
+      <!-- Output slot -->
+      <div class="fireplace-slot fireplace-slot-output" title="Output">
+        <div class="slot-icon" id="forgeOutIcon"></div>
+        <div class="slot-count" id="forgeSessionSmelted"></div>
+      </div>
+    </div>
+    <!-- Smelt progress bar -->
+    <div class="forge-prog-bar">
+      <div id="forgeProg" class="forge-prog-fill" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="side-divider forge-only" style="display:none"></div>
     
     <!-- SHARED -->
     <div class="side-divider"></div>
@@ -330,6 +361,17 @@
     </div>
   </div>
 
+  <!-- Forge Recipe Picker Modal -->
+  <div id="forgePickerModal">
+    <div id="forgePickerContent">
+      <div id="forgePickerHeader">
+        <span id="forgePickerTitle">🔨 Select Recipe</span>
+        <button id="forgePickerClose">✕</button>
+      </div>
+      <div id="forgePickerGrid"></div>
+    </div>
+  </div>
+  <div id="xpBar" style="display:none"></div>
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
   <script src="quotes.js"></script>
@@ -346,6 +388,8 @@
   <script src="streak.js"></script>
   <script src="travel.js"></script>
   <script src="typing.js"></script>
+  <script src="forge_quotes.js"></script>
+  <script src="forge.js"></script>
   <script src="scenes.js"></script>
   <script src="worldmap.js"></script>
   <script src="inventory_ui.js"></script>
@@ -354,6 +398,7 @@
   <script src="music.js"></script>
   <script src="combat.js"></script>
   <script src="main.js"></script>
+
   <script src="achievements.js"></script>
   <script src="achievements_modal.js"></script>
   <script src="chronicles.js"></script>

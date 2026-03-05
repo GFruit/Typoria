@@ -5,6 +5,7 @@ const SCENE_BACKGROUNDS = {
   cooking:     "url('assets/img/dirt.jpg')",
   travel:      "url('assets/img/path.png')",
   combat:      "url('assets/img/dungeon-sidebar.png')",
+  forge:       "url('assets/img/forge-sidebar.png')",
 };
 
 const unlockedAchievements = JSON.parse(localStorage.getItem('typoria_achievements')) || {};
@@ -114,6 +115,11 @@ function checkLevelAchievements(skill, level) {
     if (level >= 10)  unlockAchievement('Reach Level 10 Combat!');
     if (level >= 50)  unlockAchievement('Reach Level 50 Combat!');
     if (level >= 99)  unlockAchievement('Reach Level 99 Combat!');
+  }
+  if (skill === 'forge') {
+    if (level >= 10) unlockAchievement('Reach Level 10 Smithing!');
+    if (level >= 50) unlockAchievement('Reach Level 50 Smithing!');
+    if (level >= 99) unlockAchievement('Reach Level 99 Smithing!');
   }
 }
 

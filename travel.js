@@ -110,6 +110,7 @@ function enterTravelMode() {
     (LOCATIONS[travelDest]?.scene ?? currentScene);
 
   _setCookingVisible(false);
+  _setForgeVisible(false);
 
   agilityLastLevel = getLevelInfo(agilityXp).level;
   updateAgilityUI();
@@ -153,6 +154,7 @@ function arriveAtDestination() {
     fishing:     "url('assets/img/lake.png')",
     cooking:     "url('assets/img/campsite.jpg')",
     combat:      "url('assets/img/dungeon.png')",
+    forge:       "url('assets/img/forge.jpg')",
   };
 
   fromEl.style.backgroundImage = "url('assets/img/travel.png')";
@@ -173,6 +175,7 @@ function arriveAtDestination() {
     saveTravelState();
 
     if (sceneBeforeTravel === 'cooking') endCookingSession();
+    if (sceneBeforeTravel === 'forge') endForgeSession();
     sceneBeforeTravel = null;
 
     currentScene = LOCATIONS[currentLocation].scene;

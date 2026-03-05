@@ -48,6 +48,14 @@ const SCENES = {
   bodyClass: 'mode-travel',
   quotes:    () => travelQuotes,
 },
+  forge: {
+  id:        'forge',
+  name:      'Smithing',
+  skill:     'smithing',
+  skillIcon: '🔨',
+  bodyClass: 'scene-forge',
+  quotes:    () => forgeQuotes,
+  },
 };
 
 function getScene() {
@@ -62,12 +70,19 @@ function _setCookingVisible(visible) {
   if (toolSlot) toolSlot.style.display = visible ? 'flex' : 'none';
 }
 
+function _setForgeVisible(visible) {
+document.querySelectorAll('.forge-only').forEach(el => {
+el.style.display = visible ? '' : 'none';
+});
+}
+
 function updateSceneUI() {
   if (gameMode === 'travel') {
     const destScene = travelDest && LOCATIONS[travelDest]
       ? LOCATIONS[travelDest].scene : currentScene;
     document.body.className = 'mode-travel scene-' + destScene;
     _setCookingVisible(false);
+    _setForgeVisible(false);
     return;
   }
 
@@ -77,6 +92,7 @@ function updateSceneUI() {
   if (scene.id === 'combat') initCombat();
 
   const isCooking = scene.id === 'cooking';
+  const isForge   = scene.id === 'forge';
 
   document.body.className = 'mode-skill ' + scene.bodyClass;
   document.getElementById('wcIcon').textContent     = scene.skillIcon;
@@ -86,6 +102,8 @@ function updateSceneUI() {
 
   _setCookingVisible(isCooking);
   if (isCooking) updateFireplaceUI();
+  _setForgeVisible(isForge);
+  if (isForge) updateForgeUI();
 
   _lastLevel = getLevelInfo(xp).level;
   updateLevelUI();

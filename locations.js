@@ -43,7 +43,16 @@ const LOCATIONS = {
     x: 48,
     y: 20,
     achievement: "Enter the Dungeon!"
-  }
+  },
+  forge: {
+    id:          'forge',
+    name:        'The Forge',
+    icon:        '🔨',
+    scene:       'forge',
+    x:           63,
+    y:           55,
+    achievement: 'Visit the Forge!',
+    },
 };
 
 
@@ -58,6 +67,11 @@ const ROUTES = [
   { from: 'campsite', to: 'dungeon',  quotes: 1, name: '' },
   { from: 'lake',     to: 'dungeon',  quotes: 1, name: '' },
   { from: 'forest', to: 'dungeon',  quotes: 1, name: '' },
+  { from: 'mine',     to: 'forge', quotes: 1, name: '' },
+{ from: 'dungeon',  to: 'forge', quotes: 1, name: '' },
+{ from: 'campsite', to: 'forge', quotes: 1, name: '' },
+{ from: 'forest', to: 'forge', quotes: 1, name: '' },
+{ from: 'lake',   to: 'forge', quotes: 1, name: '' },
 ];
 
 function getRoute(a, b) {

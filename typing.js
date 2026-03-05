@@ -188,6 +188,8 @@ function submitWord(targetWord) {
   } else if (currentScene === 'cooking') {
     onCookingWord(hadError, targetWord, mult);
 
+  } else if (currentScene === 'forge') {
+    onForgeWord(hadError, targetWord, mult);
   } else if (currentScene === 'combat') {
     if (isEatingMode) onEatingWord(hadError);
     else onCombatWord(hadError, targetWord, mult);

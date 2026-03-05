@@ -53,7 +53,18 @@ const ACHIEVEMENTS_REGISTRY = [
   { id: 'Type at 80 WPM!',  category: 'Speed', sub: null, icon: '⚡', desc: 'Complete a quote at 80 WPM or faster' },
   { id: 'Type at 100 WPM!', category: 'Speed', sub: null, icon: '⚡', desc: 'Complete a quote at 100 WPM or faster' },
   { id: 'Type at 120 WPM!', category: 'Speed', sub: null, icon: '⚡', desc: 'Complete a quote at 120 WPM or faster' },
+
+    { id: 'Smelt your first bar!',  category: 'Skilling', sub: 'Smithing', icon: '🔩', desc: 'Complete your first smelt at the Forge' },
+    { id: 'Smelt 10 bars!',         category: 'Skilling', sub: 'Smithing', icon: '🔩', desc: 'Smelt 10 bars total in one session' },
+    { id: 'Smelt 50 bars!',         category: 'Skilling', sub: 'Smithing', icon: '🔩', desc: 'Smelt 50 bars total in one session' },
+    { id: 'Smelt a Bronze Bar!',    category: 'Skilling', sub: 'Smithing', icon: '🔩', desc: 'Combine Tin and Copper into Bronze' },
+    { id: 'Smelt a Gold Bar!',      category: 'Skilling', sub: 'Smithing', icon: '🥇', desc: 'Reach the pinnacle of Smithing' },
+    { id: 'Visit the Forge!',       category: 'Exploration', sub: null,      icon: '🔨', desc: 'Travel to the Forge' },
+    { id: 'Reach Level 10 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 10 in Smithing' },
+    { id: 'Reach Level 50 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 50 in Smithing' },
+    { id: 'Reach Level 99 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 99 Smithing — MAX LEVEL!' },
 ];
+
 
 const ACHIEVEMENT_TABS = [
   { id: 'Skilling',    icon: '🎯', color: '#a6e3a1' },
@@ -69,6 +80,7 @@ const SKILLING_SUBS = [
   { id: 'Fishing',     icon: '🎣', color: '#89dceb' },
   { id: 'Cooking',     icon: '🔥', color: '#fab387' },
   { id: 'Combat',      icon: '⚔️', color: '#f38ba8' },
+  { id: 'Smithing',    icon: '🔨', color: '#e0a96d' },
 ];
 
 // ─── State ────────────────────────────────────────────────────

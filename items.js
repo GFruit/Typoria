@@ -213,9 +213,15 @@ const ITEM_REGISTRY = [
     ], healAmount: 70,
   },
   // === COMBAT ===
+
   { id: 'silver_coin', name: 'Silver Coin', icon: '', category: 'Combat', xp: 0, image: 'assets/img/silver_coin.png' },
   { id: 'gold_coin', name: 'Gold Coin', icon: '🪙', category: 'Combat', xp: 0, image: 'assets/img/gold_coin.png'},
-  
+  { id: 'tin_bar',    name: 'Tin Bar',    icon: '🔩', category: 'Smithing', xp: 0, image: 'assets/img/tin_bar.png'    },
+  { id: 'copper_bar', name: 'Copper Bar', icon: '🔩', category: 'Smithing', xp: 0, image: 'assets/img/copper_bar.png' },
+{ id: 'bronze_bar', name: 'Bronze Bar', icon: '🔩', category: 'Smithing', xp: 0, image: 'assets/img/bronze_bar.png' },
+{ id: 'iron_bar',   name: 'Iron Bar',   icon: '⚙️', category: 'Smithing', xp: 0, image: 'assets/img/iron_bar.png'   },
+{ id: 'silver_bar', name: 'Silver Bar', icon: '🥈', category: 'Smithing', xp: 0, image: 'assets/img/silver_bar.png' },
+{ id: 'gold_bar',   name: 'Gold Bar',   icon: '🥇', category: 'Smithing', xp: 0, image: 'assets/img/gold_bar.png'   },
 ]
 
 function getItem(id) {
