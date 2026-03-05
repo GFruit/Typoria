@@ -24,7 +24,6 @@ const quotes = [
   "They say the forest moves when no one is watching, shifting its trails to trap the unwary in a labyrinth of thorns.",
   "Quercus robur, the English oak, supports over 2,300 species of wildlife. It is an entire city contained in a trunk.",
   "The forest remembers everything the wind forgets, storing the history of the world in its amber rings.",
-  "Swing. Breathe. Impact. Again.",
   "The oak stood defiant, a king in a crown of dying gold.",
   "Timber! The giant falls, and the earth trembles in its wake.",
   "Deep in the Charcoal Woods, the trees don't grow; they reach like charred skeletal fingers toward a sunless sky.",

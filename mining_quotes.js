@@ -84,7 +84,6 @@ const miningQuotes = [
   "Malachite swirls like a forest captured in stone, green ribbons of copper carbonated by time.",
   "The hoist cable frayed, humming a high-pitched note of impending disaster that echoed up the shaft.",
   "Rare earth elements are the silent engines of your technology, hidden in the dirt beneath your feet.",
-  "Galena shines with a dull, leaden metallic luster, heavy with the weight of its own dark history.",
   "Keep your lamp trimmed and your eyes sharp; the shadows in the crawlspace have a habit of moving.",
   "An alloy is a marriage of metals, where the strength of one covers the weakness of the other.",
   "The vein ran dry after forty feet. We found nothing but quartz and the bitter taste of failure.",

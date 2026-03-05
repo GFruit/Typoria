@@ -16,7 +16,6 @@ const travelQuotes = [
   "Take only memories, leave only footprints.",
   "Better to see something once than to hear about it a thousand times.",
   "I'm in love with cities I've never been to and people I've never met.",
-  "Work, Travel, Save, Repeat.",
   "The goal is to die with memories, not dreams.",
   "Life is either a daring adventure or nothing at all.",
   "Of all the books in the world, the best stories are found between the pages of a passport.",

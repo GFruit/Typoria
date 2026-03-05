@@ -101,7 +101,6 @@ const combatQuotes = [
   "In the clinch, there are no secrets. Just sweat, breath, and the struggle for leverage.",
   "The dragon-slayer's blade was forged in dragon-fire, a poetic irony not lost on the beast.",
   "The bowstring hummed—a single, low note that signaled the end of the conversation.",
-  "Size matters not. Look at me. Judge me by my size, do you?",
   "The gargoyle uncurled from the cathedral spire, its stone wings scraping like a tombstone.",
   "The world is a dojo. Every interaction is a lesson. Every setback is a sparring match.",
   "The gladiator's net was a spider's web, designed to tangle the reckless and the brave.",

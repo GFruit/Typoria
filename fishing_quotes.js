@@ -88,7 +88,6 @@ const fishingQuotes = [
   "Mahi-mahi change colors when they're excited, flashing brilliant shades of electric blue and neon yellow.",
   "The dock was slippery with algae, a green trap for the unwary fisherman rushing to his boat.",
   "I cast toward the lily pads, hoping for a largemouth bass but expecting only a snagged hook.",
-  "Life is short. Fish hard.",
   "The ocean is a vast graveyard of lost lures and broken dreams, but today it gave me a dinner.",
   "A harpoon is a primitive tool, but in the hands of a master, it is as precise as a surgeon's blade.",
   "Flounder are masters of disguise, flattening themselves against the sand until they are invisible.",
