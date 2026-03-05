@@ -25,9 +25,7 @@ function applySelection() {
 }
 
 function clearSelection() {
-  quoteInner.querySelectorAll(".selected").forEach(el =>
-    el.classList.remove("selected")
-  );
+  quoteInner.querySelectorAll(".selected").forEach(el => el.classList.remove("selected"));
   selectionActive = false;
 }
 
@@ -42,10 +40,10 @@ function getWordLineIndex(wordEl) {
 
 function scrollToCurrentLine() {
   if (currentWordIndex >= wordElements.length) return;
-  const lineIdx    = getWordLineIndex(wordElements[currentWordIndex]);
+  const lineIdx     = getWordLineIndex(wordElements[currentWordIndex]);
   const lastLineIdx = getWordLineIndex(wordElements[wordElements.length - 1]);
-  const isLastLine = lineIdx >= lastLineIdx;
-  const scrollLine = Math.max(0, isLastLine ? lineIdx - 2 : lineIdx - 1);
+  const isLastLine  = lineIdx >= lastLineIdx;
+  const scrollLine  = Math.max(0, isLastLine ? lineIdx - 2 : lineIdx - 1);
   quoteInner.style.transform = `translateY(-${scrollLine * getLineHeight()}px)`;
 }
 
@@ -53,15 +51,16 @@ function scrollToCurrentLine() {
 function buildQuote(quote) {
   quoteInner.innerHTML = "";
   quoteInner.style.transform = "translateY(0)";
-  wordElements  = [];
-  spaceElements = [];
+  wordElements     = [];
+  spaceElements    = [];
   currentWordIndex = 0;
-  wordErrorCount = 0;
+  wordErrorCount   = 0;
   typingInput.value    = "";
   typingInput.disabled = false;
   caretEl.remove();
   nextBtn.classList.remove('glow');
   clearSelection();
+
   if (wordHadError) {
     streak = 0;
     updateStreakUI();
@@ -69,9 +68,7 @@ function buildQuote(quote) {
   wordHadError = false;
   wpmOnQuoteStart(quote);
 
-  const words = quote.split(" ");
-
-  words.forEach((word, wordIndex) => {
+  quote.split(" ").forEach((word, wordIndex, words) => {
     const wordEl = document.createElement("word");
     wordEl.dataset.word = word;
 
@@ -152,7 +149,7 @@ function rerenderTyped() {
   updateCaret(slots, typed.length);
 
   const targetWord = wordElements[currentWordIndex].dataset.word;
-  const isLastWord  = currentWordIndex === wordElements.length - 1;
+  const isLastWord = currentWordIndex === wordElements.length - 1;
   if (typed === targetWord + " " || (isLastWord && typed === targetWord)) {
     submitWord(targetWord);
   }
@@ -171,8 +168,9 @@ function submitWord(targetWord) {
   }
 
   const hadError = wordHadError;
-  if (wordHadError) {
+  if (hadError) {
     streak = 0;
+    wordErrorCount++;
   } else {
     streak++;
   }
@@ -180,53 +178,40 @@ function submitWord(targetWord) {
   updateStreakUI();
 
   const mult   = getMultiplier(streak);
-  const xpGain = targetWord.length * mult;
+  const xpGain = hadError ? 0 : targetWord.length * mult;
 
-  if (gameMode === 'travel') {
-    // --- Travel mode ---
-    const travelXp = hadError ? 0 : xpGain;
-    if (travelXp != 0) {
-      spawnXpDrop(travelXp, mult);
-    }
-    
-    onTravelWordComplete(travelXp, mult, currentWordIndex, wordElements.length);
+  // --- Per-scene word handling ---
+  if (currentScene === 'travel') {
+    if (xpGain > 0) spawnXpDrop(xpGain, mult);
+    onTravelWordComplete(xpGain, mult, currentWordIndex, wordElements.length);
 
   } else if (currentScene === 'cooking') {
-    // --- Cooking mode ---
     onCookingWord(hadError, targetWord, mult);
+
   } else if (currentScene === 'combat') {
-    if (isEatingMode) {
-    onEatingWord(hadError);
+    if (isEatingMode) onEatingWord(hadError);
+    else onCombatWord(hadError, targetWord, mult);
+
   } else {
-    onCombatWord(hadError, targetWord, mult);
-  }
-  } else {
-
-
-
-    // --- Skill mode ---
+    // Skill scenes (woodcutting, mining, fishing)
     const scene      = getScene();
     const skillLevel = getLevelInfo(xp).level;
     const dropped    = rollDrops(scene.skill, skillLevel);
-    const itemXp = dropped.reduce((sum, id) => {
-      const item = getItem(id);
-      return sum + (item ? (item.xp || 0) : 0);
-    }, 0);
-    const xpGain2 = hadError ? 0 : Math.round((itemXp > 0 ? itemXp : targetWord.length) * mult);
-    if (xpGain2 > 0) {
-      xp += xpGain2;
+    const itemXp     = dropped.reduce((sum, id) => sum + (getItem(id)?.xp || 0), 0);
+    const gain       = hadError ? 0 : Math.round((itemXp > 0 ? itemXp : targetWord.length) * mult);
+
+    if (gain > 0) {
+      xp += gain;
       saveState();
       xpBar.innerHTML = `${xp} <span class="side-unit">XP</span>`;
       updateLevelUI();
-      spawnXpDrop(xpGain2, mult);
+      spawnXpDrop(gain, mult);
     }
 
     if (!hadError) {
       dropped.forEach(id => awardItem(id));
       updateLastDropDisplay(dropped);
       playDropSound(dropped);
-    } else { //if hadError
-      wordErrorCount = wordErrorCount + 1;
     }
   }
 
@@ -236,20 +221,22 @@ function submitWord(targetWord) {
     wordElements[currentWordIndex].classList.add("current-word");
     updateCaret(getSlots(currentWordIndex), 0);
     scrollToCurrentLine();
-  } else { // Quote Finished
+  } else {
+    // --- Quote finished ---
     caretEl.remove();
     typingInput.disabled = true;
     nextBtn.classList.add('glow');
-    if (gameMode !== 'travel') {
-      wpmOnQuoteComplete();
-      if (wordErrorCount === 0) {
-        quoteStreak++;
-      } else {
-        quoteStreak = 0;
-      }
-      localStorage.setItem('typoria_quote_streak', quoteStreak);
-      checkAccuracyAchievements(quoteStreak);
+    wpmOnQuoteComplete();
+
+    if (wordErrorCount === 0) {
+      quoteStreak++;
+      console.log(`[streak] Perfect quote! quoteStreak is now ${quoteStreak}`);
+    } else {
+      quoteStreak = 0;
+      console.log(`[streak] Quote had ${wordErrorCount} error(s), streak reset to 0`);
     }
+    localStorage.setItem('typoria_quote_streak', quoteStreak);
+    checkAccuracyAchievements(quoteStreak);
   }
 
   typingInput.value = "";

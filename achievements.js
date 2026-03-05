@@ -48,8 +48,11 @@ function processAchievementQueue() {
   // Show for 5s, fade out, wait 2s, then show next
   setTimeout(() => {
     toast.classList.remove('show');
-    achievementToastActive = false;
-    setTimeout(processAchievementQueue, 2000);
+    // keep achievementToastActive = true during the gap!
+    setTimeout(() => {
+      achievementToastActive = false;
+      processAchievementQueue();
+    }, 2000);
   }, 5000);
 }
 
@@ -76,6 +79,7 @@ function checkStreakAchievements(streak) {
 }
 
 function checkAccuracyAchievements(quoteStreak) {
+    console.log(`[achievements] checkAccuracyAchievements called, quoteStreak=${quoteStreak}`);
     if (quoteStreak === 1) { // 0 errors after quote completed
         unlockAchievement("Type a quote without making a single mistake!");
     }
