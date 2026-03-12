@@ -3,12 +3,52 @@
 <head>
   <title>Typoria</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      const loc        = localStorage.getItem('typoria_location') || 'forest';
+      const travelDest = localStorage.getItem('typoria_travel_dest') || '';
+      const sceneMap   = {
+        forest: 'woodcutting', mine: 'mining', lake: 'fishing',
+        campsite: 'cooking', dungeon: 'combat', forge: 'forge', bank: 'bank'
+      };
+      if (travelDest) {
+        const destScene = sceneMap[travelDest] || 'woodcutting';
+        document.write('<body class="mode-travel scene-' + destScene + '">');
+      } else {
+        const scene = sceneMap[loc] || localStorage.getItem('typoria_scene') || 'woodcutting';
+        document.write('<body class="mode-skill scene-' + scene + '">');
+      }
+    })();
+  </script>
 </head>
-<body class="mode-skill scene-woodcutting">
 
-  <div id="audioBtns">
-    <button id="musicBtn" title="Mute music">🎵</button>
-    <button id="sfxBtn" title="Mute SFX">🔊</button>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal">
+    <div id="settingsContent">
+      <div id="settingsHeader">
+        <span id="settingsTitle">⚙️ Settings</span>
+        <button id="settingsCloseBtn">✕</button>
+      </div>
+      <div id="settingsBody">
+        <div class="settings-row">
+          <span class="settings-label">Music</span>
+          <button id="musicBtn" title="Mute music">🎵 On</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">SFX</span>
+          <button id="sfxBtn" title="Mute SFX">🔊 On</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">XP Drops</span>
+          <button id="xpDropsBtn" title="Toggle XP drop floats">✨ On</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Streak HUD</span>
+          <button id="streakHudBtn" title="Toggle streak counter">🔥 On</button>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div id="toolSlot" class="cooking-only" style="display:none" title="Equip flint">
@@ -32,6 +72,16 @@
   
 
   <div id="main">
+    <!-- Streak HUD (top center of typing area) -->
+    <div id="streakHud">
+      <div id="streakHudMain">
+        <img id="streakFlame" src="assets/img/flame_green.png" alt="streak" />
+        <span id="streakCount">0</span>
+        <span id="streakMult"></span>
+      </div>
+      <div id="streakTop" class="streak-top">Top: 0</div>
+    </div>
+
     <h1>Typoria</h1>
 
     <div id="achievementToast">
@@ -75,11 +125,26 @@
     <div id="wpmLabel"></div>
   </div>
 
+  <div id="bankMain">
+    <div id="bankMainHeader">
+      <div id="bankMainTitle">🏦 Bank Storage</div>
+    </div>
+    <div id="bankWithdrawCorner">
+      <span class="bank-withdraw-label">Withdraw:</span>
+      <button class="bank-withdraw-btn active" data-qty="1">×1</button>
+      <button class="bank-withdraw-btn" data-qty="5">×5</button>
+      <button class="bank-withdraw-btn" data-qty="10">×10</button>
+      <button class="bank-withdraw-btn" data-qty="all">All</button>
+    </div>
+    <div id="bankTabsRow"></div>
+    <div id="bankStorageGrid"></div>
+  </div>
+
   <!-- Sidebar -->
   <div id="sidebar">
 
     <!-- SKILL MODE -->
-    <div class="side-section skill-only">
+    <div class="side-section skill-only hide-bank">
       <div class="side-label" id="skillLabel">Woodcutting</div>
       <div id="wcSkill">
         <div id="wcHeader">
@@ -91,7 +156,7 @@
       </div>
     </div>
     <div class="side-divider skill-only"></div>
-    <div class="side-section skill-only hide-cooking hide-forge">
+    <div class="side-section skill-only hide-cooking hide-forge hide-bank">
   <div class="side-label">Last Drop</div>
   <div id="lastDropIcons"></div>
 </div>
@@ -227,23 +292,31 @@
   </div>
   <div class="side-divider forge-only" style="display:none"></div>
     
-    <!-- SHARED -->
-    <div class="side-divider"></div>
-    <div class="side-section">
-      <div class="side-label">Streak</div>
-      <div id="streakDisplay">
-        <span id="streakFlame">🔥</span>
-        <span id="streakCount">0</span>
-        <span id="streakMult"></span>
-      </div>
-      <div id="streakTop" class="streak-top">Top: 0</div>
+  <div class="side-section bank-only" style="display:none">
+    <div class="bank-inv-label-row side-label">
+      Inventory <span id="bankSideInvCount">0 / 24</span>
     </div>
+    <div id="bankSideInvGrid"></div>
+    <button id="bankDepositAllBtn">Deposit All</button>
+  </div>
+  <div class="side-divider bank-only" style="display:none"></div>
+
+    <!-- SHARED -->
+  <div id="invBarSection" class="side-section hide-bank">
+    <div class="inv-bar-row">
+      <div class="side-label">Inventory</div>
+      <div id="invBarWrap"><div id="invBarFill"></div></div>
+      <span id="invBarLabel">0 / 24</span>
+    </div>
+  </div>
+  <div class="side-divider hide-bank"></div>
 
     <div style="flex:1"></div>
     <div id="sidebarBottomBtns">
       <button id="achievementsBtn" title="Achievements">
         <img src="assets/img/achievements_icon.png" alt="Achievements" class="hud-btn-img">
       </button>
+      <button id="settingsBtn" title="Settings">⚙️</button>
       <button id="chroniclesBtn" title="Chronicles">
         <img src="assets/img/chronicles_icon.png" alt="Chronicles" class="hud-btn-img">
       </button>
@@ -374,6 +447,10 @@
   <div id="xpBar" style="display:none"></div>
   <input type="text" id="typingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
+
+  <div id="invFullWarning">Inventory full!</div>
+
+  <script src="drag_manager.js"></script>
   <script src="quotes.js"></script>
   <script src="mining_quotes.js"></script>
   <script src="fishing_quotes.js"></script>
@@ -397,10 +474,15 @@
   <script src="wpm.js"></script>
   <script src="music.js"></script>
   <script src="combat.js"></script>
+  <script src="bank_quotes.js"></script>
+  <script src="bank.js"></script>
   <script src="main.js"></script>
 
   <script src="achievements.js"></script>
   <script src="achievements_modal.js"></script>
   <script src="chronicles.js"></script>
+  <script src="drag_manager.js"></script>
+  <script src="settings.js"></script>
+
 </body>
 </html>

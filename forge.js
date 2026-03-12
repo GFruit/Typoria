@@ -109,9 +109,7 @@ function onForgeWord(hadError, targetWord, mult) {
   // ── Deplete fuel by 1 word ────────────────────────────────
   forgeState.logBurnRemaining--;
   if (forgeState.logBurnRemaining <= 0) {
-    inventoryData[forgeState.logItemId] =
-      Math.max(0, (inventoryData[forgeState.logItemId] || 0) - 1);
-    saveInventory();
+    removeItem(forgeState.logItemId, 1);
     if (getItemQty(forgeState.logItemId) > 0) {
       const logItem = getItem(forgeState.logItemId);
       forgeState.logBurnRemaining = logItem?.burnDuration || 1;
@@ -130,11 +128,12 @@ function onForgeWord(hadError, targetWord, mult) {
 
     // Consume ore / coal inputs
     for (const { id, qty } of recipe.inputs) {
-      inventoryData[id] = Math.max(0, (inventoryData[id] || 0) - qty);
+      removeItem(id, qty);
     }
 
     // Award bar
-    awardItem(recipe.id, 1);
+    const awarded = awardItem(recipe.id, 1);
+    if (!awarded) { showInventoryFullWarning(); return; }
     forgeState.lastSmeltedId          = recipe.id;
     forgeState.sessionSmelted[recipe.id] =
       (forgeState.sessionSmelted[recipe.id] || 0) + 1;
@@ -163,8 +162,34 @@ function onForgeWord(hadError, targetWord, mult) {
 // ── Forge UI update ───────────────────────────────────────────
 function updateForgeUI() {
   const recipe = getRecipe(forgeState.selectedRecipeId);
+
+  // ─ Label icon (small) ──────────────────────────────────────
   const activeIcon = document.getElementById('forgeActiveIcon');
   if (activeIcon) _applyIconToEl(activeIcon, recipe);
+
+  // ─ Output slot ─────────────────────────────────────────────
+  const outIcon    = document.getElementById('forgeOutIcon');
+  const outSmelted = document.getElementById('forgeSessionSmelted');
+  if (outIcon) {
+    if (recipe) {
+      const outItem    = getItem(recipe.id);
+      const everMade   = discoveredItems.has(recipe.id);
+      _applyIconToEl(outIcon, outItem || recipe);
+      outIcon.style.opacity = everMade ? '1' : '0.3';
+      outIcon.title = everMade
+        ? (outItem?.name || recipe.name)
+        : (outItem?.name || recipe.name) + ' (not yet crafted)';
+    } else {
+      outIcon.style.backgroundImage = '';
+      outIcon.textContent           = '';
+      outIcon.style.opacity         = '1';
+      outIcon.title                 = '';
+    }
+  }
+  if (outSmelted) {
+    const count = recipe ? (forgeState.sessionSmelted[recipe.id] || 0) : 0;
+    outSmelted.textContent = count > 0 ? '×' + count : '';
+  }
 
 
   // ─ Ingredient icon row ────────────────────────────────────
@@ -242,18 +267,6 @@ function updateForgeUI() {
       progFill.style.width = '0%';
       if (progText) progText.textContent = '—';
     }
-  }
-
-  // ─ Output / session count ──────────────────────────────────
-  const outIcon   = document.getElementById('forgeOutIcon');
-  const sessCount = document.getElementById('forgeSessionSmelted');
-  if (outIcon) {
-    const lastR = getRecipe(forgeState.lastSmeltedId);
-    _applyIconToEl(outIcon, lastR);
-    const sessQty = forgeState.lastSmeltedId
-      ? (forgeState.sessionSmelted[forgeState.lastSmeltedId] || 0)
-      : 0;
-    if (sessCount) sessCount.textContent = sessQty > 0 ? `×${sessQty}` : '';
   }
 }
 

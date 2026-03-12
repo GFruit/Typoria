@@ -134,6 +134,23 @@ function updateFireplaceUI() {
     }
   }
 
+  // Output (cooked) slot
+  const cookedContent = document.getElementById('slotCookedContent');
+  const cookedCount   = document.getElementById('slotCookedCount');
+  if (cookedContent) {
+    const cookedId = fireplaceState.lastCookedItemId;
+    if (cookedId) {
+      const cookedItem = getItem(cookedId);
+      const cookedQty  = getItemQty(cookedId);
+      setSlotIcon(cookedContent, cookedItem);
+      if (cookedCount) cookedCount.textContent = cookedQty > 0 ? `×${cookedQty}` : '';
+    } else {
+      cookedContent.textContent = '—';
+      cookedContent.style.backgroundImage = '';
+      if (cookedCount) cookedCount.textContent = '';
+    }
+  }
+
   // Food slot
   const foodContent = document.getElementById('slotFoodContent');
   const foodCount   = document.getElementById('slotFoodCount');
@@ -151,24 +168,6 @@ function updateFireplaceUI() {
       foodCount.textContent   = '';
       if (foodSlot) foodSlot.title = 'Add food';
     }
-  }
-
-  // Cooked output slot
-  const cookedContent = document.getElementById('slotCookedContent');
-  const cookedCount   = document.getElementById('slotCookedCount');
-  const cookedSlot    = document.getElementById('slotCooked');
-  if (cookedContent) {
-    const cookedId = fireplaceState.lastCookedItemId;
-    const cooked   = cookedId ? getItem(cookedId) : null;
-    const sessQty  = cookedId ? (fireplaceState.sessionCooked[cookedId] || 0) : 0;
-    if (cooked) {
-      setSlotIcon(cookedContent, cooked);
-    } else {
-      cookedContent.style.backgroundImage = '';
-      cookedContent.textContent = '';
-    }
-    cookedCount.textContent   = sessQty > 0 ? `×${sessQty}` : '';
-    if (cookedSlot) cookedSlot.title = cooked ? cooked.name : 'Cooked';
   }
 }
 
@@ -259,8 +258,7 @@ function onCookingWord(hadError, targetWord, mult) {
 
     fireplaceState.logBurnRemaining--;
     if (fireplaceState.logBurnRemaining <= 0) {
-      inventoryData[fireplaceState.logItemId] = Math.max(0, (inventoryData[fireplaceState.logItemId] || 0) - 1);
-      saveInventory();
+      removeItem(fireplaceState.logItemId, 1);
       const remaining = getItemQty(fireplaceState.logItemId);
       if (remaining > 0) {
         fireplaceState.logCount         = remaining;
@@ -274,21 +272,19 @@ function onCookingWord(hadError, targetWord, mult) {
     useDurability('flint');
     if (fireplaceState.flintTotalUses % FLINT_MAX_USES === 0) {
       // One flint used up — decrement inventory
-      inventoryData['flint'] = Math.max(0, (inventoryData['flint'] || 0) - 1);
-      saveInventory();
+      removeItem('flint', 1);
       // Reload total from remaining inventory
       fireplaceState.flintTotalUses = getItemQty('flint') * FLINT_MAX_USES;
     }
 
-    inventoryData[fireplaceState.foodItemId] = Math.max(
-      0, (inventoryData[fireplaceState.foodItemId] || 0) - 1
-    );
+    removeItem(fireplaceState.foodItemId, 1);
 
     if (!hadError) {
-      const cookedId = COOK_MAP[fireplaceState.foodItemId];
-      if (cookedId) {
+        const cookedId = COOK_MAP[fireplaceState.foodItemId];
+        if (cookedId) {
         fireplaceState.lastCookedItemId = cookedId;
-        awardItem(cookedId);
+        const awarded = awardItem(cookedId);
+        if (!awarded) { showInventoryFullWarning(); return; }
         fireplaceState.sessionCooked[cookedId] = (fireplaceState.sessionCooked[cookedId] || 0) + 1;
         playDropSound([cookedId]);
         const cooked = getItem(cookedId);
@@ -300,7 +296,6 @@ function onCookingWord(hadError, targetWord, mult) {
       fireplaceState.foodItemId = null;
     }
 
-    saveInventory();
     saveCookingState();
     updateFireplaceUI();
 

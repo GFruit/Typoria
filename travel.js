@@ -111,6 +111,7 @@ function enterTravelMode() {
 
   _setCookingVisible(false);
   _setForgeVisible(false);
+  _setBankVisible(false);
 
   agilityLastLevel = getLevelInfo(agilityXp).level;
   updateAgilityUI();
@@ -155,6 +156,7 @@ function arriveAtDestination() {
     cooking:     "url('assets/img/campsite.jpg')",
     combat:      "url('assets/img/dungeon.png')",
     forge:       "url('assets/img/forge.jpg')",
+    bank:        "url('assets/img/bank.jpg')",
   };
 
   fromEl.style.backgroundImage = "url('assets/img/travel.png')";
@@ -176,6 +178,7 @@ function arriveAtDestination() {
 
     if (sceneBeforeTravel === 'cooking') endCookingSession();
     if (sceneBeforeTravel === 'forge') endForgeSession();
+    if (sceneBeforeTravel === 'bank') {} // bank has no session to end
     sceneBeforeTravel = null;
 
     currentScene = LOCATIONS[currentLocation].scene;

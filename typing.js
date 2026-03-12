@@ -211,10 +211,13 @@ function submitWord(targetWord) {
     }
 
     if (!hadError) {
-      dropped.forEach(id => awardItem(id));
-      updateLastDropDisplay(dropped);
-      playDropSound(dropped);
-    }
+      const awarded = dropped.filter(id => awardItem(id));
+      if (awarded.length < dropped.length) showInventoryFullWarning();
+      if (awarded.length > 0) {
+        updateLastDropDisplay(awarded);
+        playDropSound(awarded);
+        }
+      }
   }
 
   currentWordIndex++;
@@ -232,10 +235,8 @@ function submitWord(targetWord) {
 
     if (wordErrorCount === 0) {
       quoteStreak++;
-      console.log(`[streak] Perfect quote! quoteStreak is now ${quoteStreak}`);
     } else {
       quoteStreak = 0;
-      console.log(`[streak] Quote had ${wordErrorCount} error(s), streak reset to 0`);
     }
     localStorage.setItem('typoria_quote_streak', quoteStreak);
     checkAccuracyAchievements(quoteStreak);

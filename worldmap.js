@@ -91,7 +91,6 @@ function updateMapFooter() {
   if (route) {
     const a    = LOCATIONS[currentLocation];
     const b    = LOCATIONS[selectedMapNode];
-    console.log('drawing line', a, b, a.x, a.y, b.x, b.y);
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', a.x + '%');
     line.setAttribute('y1', a.y + '%');

@@ -34,7 +34,7 @@ const cookingQuotes = [
   "Sushi is a silent conversation between the blade, the fish, and the seasoned vinegared rice.",
   "Is it supposed to be smoking like that? No, honey, call the pizza place. Now.",
   "A true roux takes time; you have to stir it until it's the color of an old penny.",
-  "The Umami bomb exploded on my tongue—truffles, parmesan, and slow-roasted tomatoes.",
+  "The Umami bomb exploded on my tongue-truffles, parmesan, and slow-roasted tomatoes.",
   "Blanch the broccoli in boiling water for sixty seconds, then shock it in an ice bath.",
   "Molecular gastronomy turns dinner into a science experiment with edible foams and spheres.",
   "The cast iron skillet is a heavy, black heirloom that seasoned a century of Sunday breakfasts.",

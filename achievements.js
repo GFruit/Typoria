@@ -6,6 +6,7 @@ const SCENE_BACKGROUNDS = {
   travel:      "url('assets/img/path.png')",
   combat:      "url('assets/img/dungeon-sidebar.png')",
   forge:       "url('assets/img/forge-sidebar.png')",
+  bake:        "url('assets/img/bank-sidebar.png')",
 };
 
 const unlockedAchievements = JSON.parse(localStorage.getItem('typoria_achievements')) || {};
@@ -80,7 +81,6 @@ function checkStreakAchievements(streak) {
 }
 
 function checkAccuracyAchievements(quoteStreak) {
-    console.log(`[achievements] checkAccuracyAchievements called, quoteStreak=${quoteStreak}`);
     if (quoteStreak === 1) { // 0 errors after quote completed
         unlockAchievement("Type a quote without making a single mistake!");
     }

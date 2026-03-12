@@ -1,0 +1,23 @@
+// --- Bank Quotes ---
+const bankQuotes = [
+  "A full bank is the reward for a busy day.",
+  "Every item you carry has weight beyond its size.",
+  "The wise adventurer always keeps a slot free.",
+  "What you keep says more about you than what you spend.",
+  "An organised bank is an organised mind.",
+  "Deposit today what you cannot carry tomorrow.",
+  "Wealth is not what you hold but what you have stored.",
+  "The bank does not judge what you bring to its counter.",
+  "Space in your pack is worth more than you think.",
+  "Leave lighter than you arrived and you have made progress.",
+  "Every coin deposited is a future problem solved.",
+  "The packrat and the banker are separated by discipline.",
+  "A good run ends at the bank not in a full inventory.",
+  "Store the surplus and return for more.",
+  "Rare things deserve a safe place.",
+  "The bank remembers everything you have ever found.",
+  "Knowing when to bank is the mark of an experienced adventurer.",
+  "There is no shame in a full inventory on a good run.",
+  "What you deposit today funds the adventure of tomorrow.",
+  "An empty slot is an invitation to find something worth keeping.",
+];

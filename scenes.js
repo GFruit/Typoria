@@ -56,6 +56,14 @@ const SCENES = {
   bodyClass: 'scene-forge',
   quotes:    () => forgeQuotes,
   },
+  bank: {
+  id:        'bank',
+  name:      'Bank',
+  skill:     'bank',
+  skillIcon: '🏦',
+  bodyClass: 'scene-bank',
+  quotes:    () => bankQuotes,
+  },
 };
 
 function getScene() {
@@ -76,6 +84,15 @@ el.style.display = visible ? '' : 'none';
 });
 }
 
+function _setBankVisible(visible) {
+  document.querySelectorAll('.bank-only').forEach(el => {
+    el.style.display = visible ? 'block' : 'none';
+  });
+  document.querySelectorAll('.hide-bank').forEach(el => {
+    el.style.display = visible ? 'none' : '';
+  });
+}
+
 function updateSceneUI() {
   if (gameMode === 'travel') {
     const destScene = travelDest && LOCATIONS[travelDest]
@@ -83,6 +100,8 @@ function updateSceneUI() {
     document.body.className = 'mode-travel scene-' + destScene;
     _setCookingVisible(false);
     _setForgeVisible(false);
+    _setBankVisible(false);
+    updateInventoryBar();
     return;
   }
 
@@ -93,6 +112,7 @@ function updateSceneUI() {
 
   const isCooking = scene.id === 'cooking';
   const isForge   = scene.id === 'forge';
+  const isBank    = scene.id === 'bank';
 
   document.body.className = 'mode-skill ' + scene.bodyClass;
   document.getElementById('wcIcon').textContent     = scene.skillIcon;
@@ -104,6 +124,11 @@ function updateSceneUI() {
   if (isCooking) updateFireplaceUI();
   _setForgeVisible(isForge);
   if (isForge) updateForgeUI();
+  _setBankVisible(isBank);
+  if (isBank) {
+    renderBankScene();
+    return; // skip skill label, xp bar, streak for bank
+  }
 
   _lastLevel = getLevelInfo(xp).level;
   updateLevelUI();

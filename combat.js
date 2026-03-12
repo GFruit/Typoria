@@ -324,8 +324,7 @@ function onEatingWord(hadError) {
   }
 
   // Always consume one food per word
-  inventoryData[equippedFoodId] = qty - 1;
-  saveInventory();
+  removeItem(equippedFoodId, 1);
 
   // Only heal on correct words
   if (!hadError && item.healAmount) {
@@ -381,7 +380,6 @@ function showDeathToast() {
 
   label.textContent = 'Defeated!';
   const article = /^[aeiou]/i.test(enemy) ? 'an' : 'a';
-  console.log(article);
   name.textContent = `You were slain by ${article} ${enemy}`;
 
   toast.classList.add('show');
@@ -468,7 +466,9 @@ function updateLootUI(newIds = []) {
 }
 
 function collectSessionLoot() {
-  Object.entries(sessionLoot).forEach(([id, qty]) => awardItem(id, qty));
+  Object.entries(sessionLoot).forEach(([id, qty]) => {
+  if (!awardItem(id, qty)) showInventoryFullWarning();
+  });
   sessionLoot = {};
   updateLootUI();
 }

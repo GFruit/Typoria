@@ -37,6 +37,7 @@ const ACHIEVEMENTS_REGISTRY = [
   { id: 'Visit the Lake!',            category: 'Exploration', sub: null, icon: '🎣', desc: 'Travel to the Lake' },
   { id: 'Visit the Campsite!',        category: 'Exploration', sub: null, icon: '🔥', desc: 'Travel to the Campsite' },
   { id: 'Enter the Dungeon!',         category: 'Exploration', sub: null, icon: '💀', desc: 'Brave the Dungeon' },
+  { id: 'Visit the Bank!',            category: 'Exploration', sub: null, icon: '🏦', desc: 'Visit the Bank!' },
   { id: 'Discover all locations!',    category: 'Exploration', sub: null, icon: '🗺️', desc: 'Visit every location in Typoria' },
 
   // === ACCURACY ===
@@ -63,6 +64,8 @@ const ACHIEVEMENTS_REGISTRY = [
     { id: 'Reach Level 10 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 10 in Smithing' },
     { id: 'Reach Level 50 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 50 in Smithing' },
     { id: 'Reach Level 99 Smithing!', category: 'Skilling', sub: 'Smithing', icon: '🔨', desc: 'Reach Level 99 Smithing — MAX LEVEL!' },
+
+
 ];
 
 

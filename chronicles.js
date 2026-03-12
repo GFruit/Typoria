@@ -7,6 +7,7 @@ const CHRONICLE_SCENES = [
   { id: 'cooking',     icon: '🔥', color: '#fab387' },
   { id: 'combat',      icon: '⚔️', color: '#ffc042' },
   { id: 'travel',      icon: '🏃', color: '#89b4fa' },
+  { id: 'forge',       icon: '🔨', color: '#cba6f7' },
 ];
 
 let _chronTab     = 'woodcutting';

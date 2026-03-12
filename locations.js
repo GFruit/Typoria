@@ -53,6 +53,15 @@ const LOCATIONS = {
     y:           55,
     achievement: 'Visit the Forge!',
     },
+    bank: {
+    id:          'bank',
+    name:        'The Bank',
+    icon:        '🏦',
+    scene:       'bank',
+    x:           38,
+    y:           55,
+    achievement: 'Visit the Bank!',
+    },
 };
 
 
@@ -72,6 +81,12 @@ const ROUTES = [
 { from: 'campsite', to: 'forge', quotes: 1, name: '' },
 { from: 'forest', to: 'forge', quotes: 1, name: '' },
 { from: 'lake',   to: 'forge', quotes: 1, name: '' },
+{ from: 'forest',   to: 'bank', quotes: 1, name: '' },
+{ from: 'mine',     to: 'bank', quotes: 1, name: '' },
+{ from: 'lake',     to: 'bank', quotes: 1, name: '' },
+{ from: 'campsite', to: 'bank', quotes: 1, name: '' },
+{ from: 'forge',    to: 'bank', quotes: 1, name: '' },
+{ from: 'dungeon',  to: 'bank', quotes: 1, name: '' },
 ];
 
 function getRoute(a, b) {

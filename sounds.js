@@ -6,6 +6,14 @@
 const _audioCache = {};
 let _primed = false;
 
+// Shared AudioContext — browsers suspend it when another app holds audio focus.
+// We resume it on every user interaction so sounds work alongside Spotify etc.
+const _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function _resumeAudioCtx() {
+  if (_audioCtx.state === 'suspended') _audioCtx.resume().catch(() => {});
+}
+
 function preloadSounds() {
   const filenames = [...new Set(
     ITEM_REGISTRY.map(i => i.sound).filter(Boolean)
@@ -22,6 +30,7 @@ function preloadSounds() {
 function primeSounds() {
   if (_primed) return;
   _primed = true;
+  _resumeAudioCtx();
   Object.values(_audioCache).forEach(audio => {
     audio.volume = 0;
     const p = audio.play();
@@ -48,6 +57,7 @@ function getRarestItem(droppedIds) {
 
 function playDropSound(droppedIds) {
   if (!_sfxEnabled) return;
+  _resumeAudioCtx();
   const rarestId = getRarestItem(droppedIds);
   if (!rarestId) return;
   const item = getItem(rarestId);
@@ -63,6 +73,7 @@ const _soundCooldowns = {}; // url -> timestamp of last play
 
 function playSound(urls, volume = 0.5, cooldown = 0) {
   if (!_sfxEnabled) return;
+  _resumeAudioCtx();
   const url = Array.isArray(urls)
     ? urls[Math.floor(Math.random() * urls.length)]
     : urls;
