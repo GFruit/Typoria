@@ -61,7 +61,8 @@ function isFire() {
   return (
     fireplaceState.flintEquipped &&
     getItemQty('flint') > 0 &&
-    fireplaceState.logCount > 0 || fireplaceState.logBurnRemaining > 0);
+    (fireplaceState.logCount > 0 || fireplaceState.logBurnRemaining > 0)
+  );
 }
 
 // Call when arriving at campsite — resets session
